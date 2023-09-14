@@ -9,6 +9,9 @@
     <string name="navbar_events">Termine</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mentilogo">MENTILOGO</string>
+    <string name="home_InfoText">Starte eine personalisierte Suche und finde den passenden Spezialisten für dein Anliegen.</string>
+    <string name="search_button_text">Suchen</string>
 
 
 </resources>

@@ -19,6 +19,7 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:contentDescription="@string/mentilogo"
                 android:id="@+id/logoIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -33,7 +34,7 @@
                 android:layout_width="284dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Starte eine personalisierte Suche und finde den passenden Spezialisten für dein Anliegen."
+                android:text="@string/home_InfoText"
                 android:textAlignment="center"
                 android:textColor="@color/font"
                 android:textSize="16sp"
@@ -47,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@color/primary"
-                android:text="Suchen"
+                android:text="@string/search_button_text"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
