@@ -3,10 +3,12 @@ package com.example.menti
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.menti.databinding.ActivityMainBinding
 import com.example.menti.ui.EventsFragment
 import com.example.menti.ui.FavoritesFragment
 import com.example.menti.ui.HomeFragment
+import com.example.menti.ui.LoginFragment
 import com.example.menti.ui.MessengerFragment
 import com.example.menti.ui.SearchFragment
 
@@ -22,7 +24,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //Home Fragment bei Starten der App
-        replaceFragment(HomeFragment())
+        //replaceFragment(HomeFragment())
+
         binding.bottomNavigation.selectedItemId = R.id.home
 
         //Bottom Navigation Steuerung
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
     }
 
 

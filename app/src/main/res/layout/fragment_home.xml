@@ -19,7 +19,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:contentDescription="@string/mentilogo"
+                android:contentDescription="@string/menti_logo_text"
                 android:id="@+id/logoIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
                 android:layout_width="284dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="@string/home_InfoText"
+                android:text="@string/home_info_text"
                 android:textAlignment="center"
                 android:textColor="@color/font"
                 android:textSize="16sp"

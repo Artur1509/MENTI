@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    tools:context=".ui.LoginFragment">
+
+    <ImageView
+        android:id="@+id/loginLogoIV"
+        android:layout_width="115dp"
+        android:layout_height="112dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/menti_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/loginTitleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Login"
+        android:textColor="@color/font"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/loginLogoIV"
+        app:layout_constraintStart_toStartOf="@+id/loginLogoIV"
+        app:layout_constraintTop_toBottomOf="@+id/loginLogoIV" />
+
+    <TextView
+        android:id="@+id/loginInfoTV"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Bitte registrieren sie sich oder melden sie sich mit einem bestehenden Account an um fortzufahren."
+        android:textAlignment="center"
+        android:textColor="@color/font"
+        app:layout_constraintEnd_toEndOf="@+id/loginTitleTV"
+        app:layout_constraintStart_toStartOf="@+id/loginTitleTV"
+        app:layout_constraintTop_toBottomOf="@+id/loginTitleTV" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailET"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="E-Mail"
+        android:inputType="textEmailAddress"
+        app:boxStrokeColor="@color/primary"
+        app:cursorColor="@color/primary"
+        app:hintTextColor="@color/primary"
+        app:layout_constraintEnd_toEndOf="@+id/loginInfoTV"
+        app:layout_constraintStart_toStartOf="@+id/loginInfoTV"
+        app:layout_constraintTop_toBottomOf="@+id/loginInfoTV">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/repeatPasswordET"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Passwort"
+        android:inputType="textPassword"
+        app:boxStrokeColor="@color/primary"
+        app:cursorColor="@color/primary"
+        app:hintTextColor="@color/primary"
+        app:layout_constraintEnd_toEndOf="@+id/emailET"
+        app:layout_constraintStart_toStartOf="@+id/emailET"
+        app:layout_constraintTop_toBottomOf="@+id/emailET">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/loginBTN"
+        android:layout_width="270dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/primary"
+        android:text="Anmelden"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/repeatPasswordET"
+        app:layout_constraintStart_toStartOf="@+id/repeatPasswordET"
+        app:layout_constraintTop_toBottomOf="@+id/repeatPasswordET" />
+
+    <Button
+        android:id="@+id/signupBTN"
+        android:layout_width="270dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#00E0FDFA"
+        android:text="Registieren"
+        android:textColor="@color/font"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/loginBTN"
+        app:layout_constraintStart_toStartOf="@+id/loginBTN"
+        app:layout_constraintTop_toBottomOf="@+id/loginBTN"
+        app:strokeWidth="2dp"
+        tools:strokeColor="@color/font" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
