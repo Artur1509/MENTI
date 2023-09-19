@@ -4,6 +4,7 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -27,16 +28,18 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         viewBinding = true
         dataBinding = true
     }
+
+
 }
 
 dependencies {
@@ -51,6 +54,16 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation 'com.squareup:javapoet:1.13.0'
+
+    // Dagger Hilt
+    implementation 'com.google.dagger:hilt-android:2.48'
+    //kapt 'com.google.dagger:hilt-android-compiler:2.40.5'
+    //implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
+    kapt "com.google.dagger:hilt-compiler:2.48"
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.48'
+
 
     //MATERIAL
     implementation "com.google.android.material:material:1.11.0-alpha02"
@@ -68,4 +81,11 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.2.3')
     //Firebase
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    //Firebase Authentication
+    implementation 'com.google.firebase:firebase-auth-ktx:22.1.2'
+
+}
+
+kapt {
+    correctErrorTypes true
 }

@@ -52,6 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/signupInfoTV">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signupEmailInputET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -85,6 +86,7 @@
         app:layout_constraintTop_toBottomOf="@+id/emailET">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordSignUpET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -108,6 +110,7 @@
         app:layout_constraintTop_toBottomOf="@+id/repeatPasswordET">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signupRepeatPasswordET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

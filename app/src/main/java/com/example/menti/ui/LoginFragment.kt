@@ -5,20 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.menti.R
+import com.example.menti.data.Resource
 import com.example.menti.databinding.FragmentLoginBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
+    private val viewModel by viewModels<AuthViewModel>()
     private lateinit var binding: FragmentLoginBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,9 +35,29 @@ class LoginFragment : Fragment() {
         val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.GONE
 
+
         binding.signupBTN.setOnClickListener {
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignupFragment())
         }
+
+        binding.loginBTN.setOnClickListener {
+
+            val email = binding.emailinputET.text.toString()
+            val password = binding.passwordInputET.text.toString()
+
+            viewModel.login(email, password)
+
+        }
+
+        viewModel.loginFlow.observe(viewLifecycleOwner) {
+
+            if(it is Resource.Success) {
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
+                navBar.visibility = View.VISIBLE
+            }
+
+        }
+
     }
 
 }

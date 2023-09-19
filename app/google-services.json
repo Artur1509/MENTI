@@ -12,7 +12,20 @@
           "package_name": "com.example.menti"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "970231851421-ekequ5m6jlgik8rmj5978v9kserddk3d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.menti",
+            "certificate_hash": "753db76a1644682dc07a467e5eba1d521a3de52e"
+          }
+        },
+        {
+          "client_id": "970231851421-kv33qlg8fcfl545fuqt64niv2rubrml7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDioemXq7nWTsPHLvTMmUe6KuBqlhfEDik"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970231851421-kv33qlg8fcfl545fuqt64niv2rubrml7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
