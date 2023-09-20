@@ -1,4 +1,4 @@
-package com.example.menti.ui
+package com.example.menti.ui.auth
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.menti.R
 import com.example.menti.data.Resource
 import com.example.menti.databinding.FragmentSignupBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView

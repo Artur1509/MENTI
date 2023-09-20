@@ -1,4 +1,4 @@
-package com.example.menti.ui
+package com.example.menti.ui.auth
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
