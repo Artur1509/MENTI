@@ -9,10 +9,9 @@ import com.example.menti.ui.FavoritesFragment
 import com.example.menti.ui.HomeFragment
 import com.example.menti.ui.MessengerFragment
 import com.example.menti.ui.SearchFragment
-import dagger.hilt.android.AndroidEntryPoint
 
 
-@AndroidEntryPoint
+
 class MainActivity : AppCompatActivity() {
 
 
@@ -49,7 +48,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
 
     //Funktion um das navHostFragment durch beliebiges Fragment zu ersetzen.
     private fun replaceFragment(fragment: Fragment){

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MENTI</string>
+    <string name="web_client_id">970231851421-kv33qlg8fcfl545fuqt64niv2rubrml7.apps.googleusercontent.com</string>
 
     <!-- Bottom Navigationbar -->
     <string name="navbar_search">Suche</string>

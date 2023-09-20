@@ -5,19 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
-import com.example.menti.data.Resource
 import com.example.menti.databinding.FragmentLoginBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
 
 
-@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
-    private val viewModel by viewModels<AuthViewModel>()
     private lateinit var binding: FragmentLoginBinding
+    val authViewModel: AuthViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,31 +31,36 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Bottom Navbar invisible
+        // Bottom Navbar unsichtbar
         val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.GONE
 
-
+        // Navigation zum Signup Fragment
         binding.signupBTN.setOnClickListener {
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignupFragment())
         }
 
+        // Einloggen
         binding.loginBTN.setOnClickListener {
 
             val email = binding.emailinputET.text.toString()
             val password = binding.passwordInputET.text.toString()
 
-            viewModel.login(email, password)
+            authViewModel.signIn(email, password)
 
         }
 
-        viewModel.loginFlow.observe(viewLifecycleOwner) {
+        // Google Login
+        binding.googleLoginBTN.setOnClickListener {
 
-            if(it is Resource.Success) {
+        }
+
+        // Prüfe ob User eingeloggt ist
+        authViewModel.user.observe(viewLifecycleOwner) {
+            if(it != null) {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
                 navBar.visibility = View.VISIBLE
             }
-
         }
 
     }

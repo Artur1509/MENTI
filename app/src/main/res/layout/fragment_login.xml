@@ -118,4 +118,28 @@
         app:strokeWidth="2dp"
         tools:strokeColor="@color/font" />
 
+    <Button
+        android:id="@+id/googleLoginBTN"
+        android:layout_width="270dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/white"
+        android:text="Weiter mit Google"
+        android:textColor="@color/font"
+        app:layout_constraintEnd_toEndOf="@+id/signupBTN"
+        app:layout_constraintStart_toStartOf="@+id/signupBTN"
+        app:layout_constraintTop_toBottomOf="@+id/signupBTN"
+        app:strokeColor="@color/font"
+        app:strokeWidth="2dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/googlelogo"
+        app:layout_constraintBottom_toBottomOf="@+id/googleLoginBTN"
+        app:layout_constraintStart_toStartOf="@+id/googleLoginBTN"
+        app:layout_constraintTop_toTopOf="@+id/googleLoginBTN" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
