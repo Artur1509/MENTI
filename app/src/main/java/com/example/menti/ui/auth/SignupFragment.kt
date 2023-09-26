@@ -5,16 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.menti.databinding.FragmentSignupBinding
+import com.example.menti.FirebaseViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class SignupFragment : Fragment() {
 
     private lateinit var binding: FragmentSignupBinding
-    val authViewModel: AuthViewModel by activityViewModels()
+    val firebaseViewModel: FirebaseViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,12 +46,12 @@ class SignupFragment : Fragment() {
             val email = binding.signupEmailInputET.text.toString()
             val password = binding.signupRepeatPasswordET.text.toString()
 
-            authViewModel.signUp(email, password)
+            firebaseViewModel.signUp(email, password)
 
         }
 
         //Prüfe ob User eingeloggt ist
-        authViewModel.user.observe(viewLifecycleOwner){
+        firebaseViewModel.user.observe(viewLifecycleOwner){
             if(it != null){
                 findNavController().navigate(SignupFragmentDirections.actionSignupFragmentToHomeFragment())
                 navBar.visibility = View.VISIBLE

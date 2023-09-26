@@ -5,19 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import com.example.menti.databinding.FragmentLoginBinding
+import com.example.menti.FirebaseViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
-    val authViewModel: AuthViewModel by activityViewModels()
+    val firebaseViewModel: FirebaseViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,17 +44,18 @@ class LoginFragment : Fragment() {
             val email = binding.emailinputET.text.toString()
             val password = binding.passwordInputET.text.toString()
 
-            authViewModel.signIn(email, password)
+            firebaseViewModel.signIn(email, password)
 
         }
 
+        
         // Google Login
         binding.googleLoginBTN.setOnClickListener {
 
         }
 
         // Prüfe ob User eingeloggt ist
-        authViewModel.user.observe(viewLifecycleOwner) {
+        firebaseViewModel.user.observe(viewLifecycleOwner) {
             if(it != null) {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
                 navBar.visibility = View.VISIBLE

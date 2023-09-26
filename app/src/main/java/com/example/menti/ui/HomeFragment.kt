@@ -7,16 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.menti.FirebaseViewModel
 import com.example.menti.databinding.FragmentHomeBinding
-import com.example.menti.ui.auth.AuthViewModel
-import com.example.menti.ui.auth.LoginFragmentDirections
 
 
 class HomeFragment : Fragment() {
 
 
     private lateinit var binding: FragmentHomeBinding
-    val authViewModel: AuthViewModel by activityViewModels()
+    val firebaseViewModel: FirebaseViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,11 +28,21 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.searchBTN.setOnClickListener{
-            authViewModel.signOut()
+
+        }
+
+        binding.logoutBTN.setOnClickListener {
+            firebaseViewModel.signOut()
+        }
+
+        binding.toProfileBTN.setOnClickListener {
+
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
+
         }
 
         // Prüfe ob User eingeloggt ist, wenn nicht -> Navigation zum LoginFragment
-        authViewModel.user.observe(viewLifecycleOwner) {
+        firebaseViewModel.user.observe(viewLifecycleOwner) {
             if(it == null) {
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToLoginFragment())
             }
