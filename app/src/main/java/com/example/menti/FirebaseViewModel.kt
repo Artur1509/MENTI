@@ -50,10 +50,9 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
     fun signIn(email: String, password: String) {
 
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            //Wenn Task fertig ist dann überprüfe z.B. ob der User eingeloggt wurde
-            //oder ob es Fehler gab o.Ä.
 
             setupUserEnv()
+
         }
     }
 
