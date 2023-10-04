@@ -1,0 +1,12 @@
+package com.example.menti.data.model
+
+data class PsychologistProfile(
+
+    var titel: String ?= null,
+    var vorname: String ?= null,
+    var name: String ?= null,
+    var bewertung: Float ?= null,
+    var beruf: String ?= null,
+    var bild: String?= null,
+
+)
