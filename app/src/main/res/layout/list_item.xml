@@ -29,7 +29,22 @@
                 android:layout_width="268dp"
                 android:layout_height="120dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/constraintLayout" />
+                app:layout_constraintStart_toEndOf="@+id/constraintLayout" >
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/tagsCG"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:chipSpacing="4dp"
+                    app:chipSpacingHorizontal="4dp"
+                    app:chipSpacingVertical="4dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </com.google.android.material.chip.ChipGroup>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <RatingBar
                 android:id="@+id/ratingBar4"

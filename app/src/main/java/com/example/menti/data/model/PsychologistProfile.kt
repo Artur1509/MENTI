@@ -8,5 +8,6 @@ data class PsychologistProfile(
     var bewertung: Float ?= null,
     var beruf: String ?= null,
     var bild: String?= null,
+    var tags: ArrayList<String>?= null
 
 )

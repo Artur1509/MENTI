@@ -1,12 +1,21 @@
 package com.example.menti.util
 
+import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.marginBottom
+import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.menti.R
 import com.example.menti.data.model.PsychologistProfile
 import com.example.menti.databinding.ListItemBinding
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 
 class searchResultAdapter(
     var dataset: ArrayList<PsychologistProfile>,
@@ -32,9 +41,28 @@ class searchResultAdapter(
 
         }
 
+        item.tags!!.forEach {
+
+            holder.binding.tagsCG.addChip(it)
+
+        }
+
     }
 
     override fun getItemCount(): Int {
         return dataset.size
+    }
+
+    fun ChipGroup.addChip(label: String ) {
+        Chip(context).apply {
+
+            id = View.generateViewId()
+            text = label
+            isClickable = false
+            isFocusable = false
+            chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
+            setEnsureMinTouchTargetSize(false)
+            addView(this)
+        }
     }
 }
