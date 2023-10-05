@@ -3,6 +3,7 @@ package com.example.menti
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.menti.databinding.ActivityMainBinding
 import com.example.menti.ui.EventsFragment
 import com.example.menti.ui.FavoritesFragment
@@ -24,8 +25,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Home Fragment bei Starten der App
-        //replaceFragment(HomeFragment())
 
         binding.bottomNavigation.selectedItemId = R.id.home
 
@@ -34,11 +33,11 @@ class MainActivity : AppCompatActivity() {
 
             when(it.itemId){
 
-                R.id.search -> replaceFragment(SearchFragment())
-                R.id.favorites -> replaceFragment(FavoritesFragment())
-                R.id.home -> replaceFragment(HomeFragment())
-                R.id.messages -> replaceFragment(MessengerFragment())
-                R.id.events -> replaceFragment(EventsFragment())
+                R.id.search -> findNavController(R.id.navHostFragment).navigate(R.id.searchFragment)
+                R.id.favorites -> findNavController(R.id.navHostFragment).navigate(R.id.favoritesFragment)
+                R.id.home -> findNavController(R.id.navHostFragment).navigate(R.id.homeFragment)
+                R.id.messages -> findNavController(R.id.navHostFragment).navigate(R.id.messengerFragment)
+                R.id.events -> findNavController(R.id.navHostFragment).navigate(R.id.eventsFragment)
 
                 else -> {
 
@@ -49,14 +48,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //Funktion um das navHostFragment durch beliebiges Fragment zu ersetzen.
-    private fun replaceFragment(fragment: Fragment){
-
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.navHostFragment, fragment)
-        fragmentTransaction.commit()
-
-
-    }
 }

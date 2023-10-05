@@ -46,8 +46,11 @@ class searchResultAdapter(
         }
 
         holder.binding.cardView.setOnClickListener {
+
             try {
-                it.findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToDetailFragment())
+                val navController = holder.itemView.findNavController()
+                navController.navigate(SearchFragmentDirections.actionSearchFragmentToDetailFragment2(id = item.id!!))
+
             }catch (e: Exception) {
                 Log.e("RV", "${e.message}")
             }
