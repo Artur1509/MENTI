@@ -2,6 +2,7 @@ package com.example.menti.util
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.marginBottom
 import androidx.core.view.size
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.menti.R
 import com.example.menti.data.model.PsychologistProfile
 import com.example.menti.databinding.ListItemBinding
+import com.example.menti.ui.SearchFragmentDirections
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
@@ -39,6 +43,14 @@ class searchResultAdapter(
 
         holder.binding.profileImageIV.load(imgUri) {
 
+        }
+
+        holder.binding.cardView.setOnClickListener {
+            try {
+                it.findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToDetailFragment())
+            }catch (e: Exception) {
+                Log.e("RV", "${e.message}")
+            }
         }
 
         item.tags!!.forEach {
