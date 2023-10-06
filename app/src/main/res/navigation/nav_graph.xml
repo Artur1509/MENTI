@@ -100,5 +100,12 @@
         <argument
             android:name="bewertung"
             app:argType="float" />
+        <argument
+            android:name="beschreibung"
+            app:argType="string" />
+        <argument
+            android:name="tags"
+            app:argType="string[]"
+            app:nullable="true" />
     </fragment>
 </navigation>

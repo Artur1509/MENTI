@@ -55,7 +55,9 @@ class searchResultAdapter(
                     name = item.name!!,
                     vorname = item.vorname!!,
                     beruf = item.beruf!!,
-                    bewertung = item.bewertung!!))
+                    bewertung = item.bewertung!!,
+                    beschreibung = item.beschreibung!!,
+                    tags = item.tags!!.toTypedArray()))
 
             }catch (e: Exception) {
                 Log.e("RV", "${e.message}")
