@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/secondary"
+    android:background="@color/white"
     tools:context=".ui.DetailFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -44,163 +44,132 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:background="@color/white"
-        android:elevation="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="120dp"
+        android:layout_height="140dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialToolbar2">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="176dp"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/detailProfileIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:src="@drawable/profilbild" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout6"
-                android:layout_width="140dp"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+    <TextView
+        android:id="@+id/detailNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Dr. Anna Braun"
+        android:textColor="@color/font"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/constraintLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar2" />
 
-                <ImageView
-                    android:id="@+id/detailProfileIV"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="center"
-                    android:src="@drawable/profilbild"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/detailBerufTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:text="Dipl.- Psychologin"
+        app:layout_constraintStart_toEndOf="@+id/constraintLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/detailNameTV" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="270dp"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/constraintLayout6"
-                app:layout_constraintTop_toTopOf="parent" >
+    <RatingBar
+        android:id="@+id/detailRatingRB"
+        style="@style/CustomRatingBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:numStars="5"
+        android:rating="4.5"
+        android:stepSize="0.5"
+        app:layout_constraintStart_toEndOf="@+id/constraintLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/detailBerufTV" />
 
-                <TextView
-                    android:id="@+id/detailProfileNameTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="TextView"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/detailRezesionenTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="48 Rezessionen"
+        android:textColor="@color/primary"
+        app:layout_constraintStart_toStartOf="@+id/detailRatingRB"
+        app:layout_constraintTop_toBottomOf="@+id/detailRatingRB" />
 
-                <TextView
-                    android:id="@+id/detailProfileTitelTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="TextView"
-                    app:layout_constraintStart_toStartOf="@+id/detailProfileNameTV"
-                    app:layout_constraintTop_toBottomOf="@+id/detailProfileNameTV" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
 
-                <RatingBar
-                    style="@style/CustomRatingBarStyle"
-                    android:id="@+id/detailRatingBarRB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:numStars="5"
-                    android:rating="4.5"
-                    android:stepSize="0.5"
-                    app:layout_constraintStart_toStartOf="@+id/detailProfileTitelTV"
-                    app:layout_constraintTop_toBottomOf="@+id/detailProfileTitelTV" />
-
-                <TextView
-                    android:id="@+id/rezessionenLINK"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:linksClickable="true"
-                    android:text="TextView"
-                    android:textColor="@color/primary"
-                    android:textColorLink="@color/primary"
-                    app:layout_constraintStart_toStartOf="@+id/detailRatingBarRB"
-                    app:layout_constraintTop_toBottomOf="@+id/detailRatingBarRB" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout5"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@color/primary"
+            android:src="@drawable/favorites_white_selector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="10dp" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@color/primary"
+            android:src="@drawable/share_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@color/primary"
+            android:src="@drawable/website_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageButton2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@color/primary"
+            android:src="@drawable/call_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageButton3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/imageButton5"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@color/primary"
+            android:src="@drawable/message_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageButton4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/accent"
+            android:text="Termin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <Button
-                android:id="@+id/terminBuchenBTN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/accent"
-                android:text="Termin"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/sendMessageBTN"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:background="@color/primary"
-                android:src="@drawable/message_white"
-                app:layout_constraintBottom_toBottomOf="@+id/terminBuchenBTN"
-                app:layout_constraintStart_toEndOf="@+id/callBTN"
-                app:layout_constraintTop_toTopOf="@+id/terminBuchenBTN" />
-
-            <ImageButton
-                android:id="@+id/callBTN"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:background="@color/primary"
-                android:src="@drawable/call_white"
-                app:layout_constraintBottom_toBottomOf="@+id/sendMessageBTN"
-                app:layout_constraintStart_toEndOf="@+id/shareProfileBTN"
-                app:layout_constraintTop_toTopOf="@+id/sendMessageBTN" />
-
-            <ImageButton
-                android:id="@+id/shareProfileBTN"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:background="@color/primary"
-                android:src="@drawable/share_white"
-                app:layout_constraintBottom_toBottomOf="@+id/callBTN"
-                app:layout_constraintStart_toEndOf="@+id/addFavoritesBTN"
-                app:layout_constraintTop_toTopOf="@+id/callBTN" />
-
-            <ImageButton
-                android:id="@+id/addFavoritesBTN"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:background="@color/primary"
-                android:src="@drawable/favorites_white_selector"
-                app:layout_constraintBottom_toBottomOf="@+id/shareProfileBTN"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/shareProfileBTN" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

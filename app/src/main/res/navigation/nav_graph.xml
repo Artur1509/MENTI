@@ -83,7 +83,22 @@
             android:id="@+id/action_detailFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
         <argument
-            android:name="id"
-            app:argType="integer" />
+            android:name="profilePicture"
+            app:argType="string" />
+        <argument
+            android:name="titel"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="vorname"
+            app:argType="string" />
+        <argument
+            android:name="beruf"
+            app:argType="string" />
+        <argument
+            android:name="bewertung"
+            app:argType="float" />
     </fragment>
 </navigation>

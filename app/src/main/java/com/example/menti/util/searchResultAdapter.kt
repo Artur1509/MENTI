@@ -49,7 +49,13 @@ class searchResultAdapter(
 
             try {
                 val navController = holder.itemView.findNavController()
-                navController.navigate(SearchFragmentDirections.actionSearchFragmentToDetailFragment2(id = item.id!!))
+                navController.navigate(SearchFragmentDirections.actionSearchFragmentToDetailFragment2(
+                    profilePicture = item.bild!!,
+                    titel = item.titel!!,
+                    name = item.name!!,
+                    vorname = item.vorname!!,
+                    beruf = item.beruf!!,
+                    bewertung = item.bewertung!!))
 
             }catch (e: Exception) {
                 Log.e("RV", "${e.message}")
