@@ -8,5 +8,6 @@
     <color name="accent">#E55ECF</color>
     <color name="font">#161616</color>
 
+    <color name="mtrl_textinput_default_box_stroke_color">#32AB96</color>
 
 </resources>

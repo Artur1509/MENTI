@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.menti.FirebaseViewModel
 import com.example.menti.databinding.FragmentHomeBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class HomeFragment : Fragment() {
@@ -27,8 +28,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.searchBTN.setOnClickListener{
+        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        navBar.visibility = View.VISIBLE
 
+        binding.searchBTN.setOnClickListener{
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToFilterFragment())
         }
 
         binding.logoutBTN.setOnClickListener {
