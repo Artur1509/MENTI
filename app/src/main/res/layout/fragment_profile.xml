@@ -210,7 +210,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/primary"
         android:text="Speichern"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout7"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout7"

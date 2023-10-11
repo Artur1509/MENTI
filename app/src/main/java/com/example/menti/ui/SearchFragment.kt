@@ -8,21 +8,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.menti.FirebaseViewModel
-import com.example.menti.R
 import com.example.menti.data.model.PsychologistProfile
 import com.example.menti.databinding.FragmentSearchBinding
-import com.example.menti.util.searchResultAdapter
+import com.example.menti.util.SearchResultAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import java.util.EventListener
 
 class SearchFragment : Fragment() {
 
     private lateinit var searchRV: RecyclerView
-    private lateinit var dataset: ArrayList<PsychologistProfile>
-    private lateinit var rvAdapter: searchResultAdapter
+    private lateinit var dataset: ArrayList<Pair<String, PsychologistProfile>>
+    private lateinit var rvAdapter: SearchResultAdapter
 
     private lateinit var binding: FragmentSearchBinding
     val firebaseViewModel: FirebaseViewModel by activityViewModels()
@@ -37,10 +36,13 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        navBar.visibility = View.VISIBLE
+
         searchRV = binding.searchResultsRV
         searchRV.setHasFixedSize(true)
         dataset = arrayListOf()
-        rvAdapter = searchResultAdapter(dataset)
+        rvAdapter = SearchResultAdapter(dataset, firebaseViewModel)
 
         searchRV.adapter = rvAdapter
 
@@ -57,15 +59,19 @@ class SearchFragment : Fragment() {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
 
                     for (dc: DocumentChange in value?.documentChanges!!) {
+
                         if(dc.type == DocumentChange.Type.ADDED ) {
-                            dataset.add(dc.document.toObject(PsychologistProfile::class.java))
+                            val pair = Pair<String, PsychologistProfile>(
+                                dc.document.id,
+                                dc.document.toObject(PsychologistProfile::class.java
+                            ))
+                            dataset.add(pair)
                         }
                     }
 
                     rvAdapter.notifyDataSetChanged()
 
                 }
-
             })
 
 

@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.menti.R
+import com.example.menti.data.Categories
 import com.example.menti.databinding.FragmentFilterBinding
+import com.example.menti.util.FilterCategoriesAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class FilterFragment : Fragment() {
@@ -31,6 +32,15 @@ class FilterFragment : Fragment() {
         binding.filterToHomeBTN.setOnClickListener {
             findNavController().navigate(FilterFragmentDirections.actionFilterFragmentToHomeFragment())
         }
+
+        binding.toSearchResultsBTN.setOnClickListener {
+            findNavController().navigate(FilterFragmentDirections.actionFilterFragmentToSearchFragment())
+        }
+
+        val categoriesRV = binding.filterCategoriesRV
+        val data = Categories().loadCategories()
+
+        categoriesRV.adapter = FilterCategoriesAdapter(data)
     }
 
 }

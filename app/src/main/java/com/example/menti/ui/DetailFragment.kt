@@ -2,7 +2,6 @@ package com.example.menti.ui
 
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,14 +13,10 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.menti.FirebaseViewModel
 import com.example.menti.R
-import com.example.menti.data.model.PsychologistProfile
 import com.example.menti.databinding.FragmentDetailBinding
-import com.example.menti.util.searchResultAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.protobuf.LazyStringArrayList
-import java.util.ArrayList
 
 class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding

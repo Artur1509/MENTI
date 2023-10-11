@@ -1,6 +1,7 @@
 package com.example.menti
 
 import android.app.Application
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
@@ -8,8 +9,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.menti.ui.ProfileFragment
 import com.example.menti.ui.ProfileFragmentDirections
+import com.example.menti.util.SearchResultAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -52,7 +55,6 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
 
             setupUserEnv()
-
         }
     }
 
@@ -116,5 +118,19 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
             }
 
     }
+
+    // Add Favorites
+    fun addFavorites(id: String) {
+
+        var favorite = hashMapOf(
+            "id" to id
+        )
+        //firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").document(id).set(id)
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").document().set(favorite)
+
+    }
+
+
+
 
 }
