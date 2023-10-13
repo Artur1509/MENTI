@@ -1,6 +1,7 @@
 package com.example.menti.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.example.menti.databinding.FragmentSearchBinding
 import com.example.menti.util.SearchResultAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 import java.util.EventListener
@@ -20,7 +22,7 @@ import java.util.EventListener
 class SearchFragment : Fragment() {
 
     private lateinit var searchRV: RecyclerView
-    private lateinit var dataset: ArrayList<Pair<String, PsychologistProfile>>
+    private lateinit var dataset: ArrayList<Pair<DocumentReference, PsychologistProfile>>
     private lateinit var rvAdapter: SearchResultAdapter
 
     private lateinit var binding: FragmentSearchBinding
@@ -47,6 +49,7 @@ class SearchFragment : Fragment() {
         searchRV.adapter = rvAdapter
 
         EventChangeListener()
+        Log.e("RV", "${dataset}")
 
 
     }
@@ -61,8 +64,8 @@ class SearchFragment : Fragment() {
                     for (dc: DocumentChange in value?.documentChanges!!) {
 
                         if(dc.type == DocumentChange.Type.ADDED ) {
-                            val pair = Pair<String, PsychologistProfile>(
-                                dc.document.id,
+                            val pair = Pair<DocumentReference, PsychologistProfile>(
+                                dc.document.reference,
                                 dc.document.toObject(PsychologistProfile::class.java
                             ))
                             dataset.add(pair)

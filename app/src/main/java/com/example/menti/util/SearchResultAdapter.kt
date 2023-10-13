@@ -18,9 +18,10 @@ import com.example.menti.ui.SearchFragment
 import com.example.menti.ui.SearchFragmentDirections
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.firestore.DocumentReference
 
 class SearchResultAdapter(
-    var dataset: ArrayList<Pair<String, PsychologistProfile>>,
+    var dataset: ArrayList<Pair<DocumentReference, PsychologistProfile>>,
     var firebaseViewModel: FirebaseViewModel
 
     ): RecyclerView.Adapter<SearchResultAdapter.ItemViewHolder>() {
@@ -34,7 +35,7 @@ class SearchResultAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
-        val id = item.first
+        val reference = item.first
         val profil = item.second
         val imgUri = profil.bild!!.toUri().buildUpon().scheme("https").build()
 
@@ -77,7 +78,7 @@ class SearchResultAdapter(
         }
 
         holder.binding.addToFavoritesBTN.setOnClickListener {
-            firebaseViewModel.addFavorites(id)
+            firebaseViewModel.addFavorites(reference)
         }
 
     }

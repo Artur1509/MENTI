@@ -120,13 +120,12 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
     // Add Favorites
-    fun addFavorites(id: String) {
+    fun addFavorites(reference: DocumentReference) {
 
-        var favorite = hashMapOf(
-            "id" to id
+        var favorit = hashMapOf(
+            "reference" to reference
         )
-        //firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").document(id).set(id)
-        firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").document().set(favorite)
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").document().set(favorit)
 
     }
 

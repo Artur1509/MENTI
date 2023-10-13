@@ -16,8 +16,7 @@ import com.example.menti.databinding.ListItemBinding
 import com.example.menti.ui.FavoritesFragmentDirections
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+
 
 class FavoritesAdapter(
     var dataset: ArrayList<PsychologistProfile>,
@@ -68,6 +67,8 @@ class FavoritesAdapter(
             holder.binding.tagsCG.addChip(it)
 
         }
+
+
 
     }
 
