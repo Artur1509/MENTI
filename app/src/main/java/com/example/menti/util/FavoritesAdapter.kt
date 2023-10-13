@@ -19,7 +19,7 @@ import com.google.android.material.chip.ChipGroup
 
 
 class FavoritesAdapter(
-    var dataset: ArrayList<PsychologistProfile>,
+    var dataset: ArrayList<PsychologistProfile>
 
     ): RecyclerView.Adapter<FavoritesAdapter.ItemViewHolder>() {
     class ItemViewHolder(val binding: ListItemBinding) :
@@ -37,9 +37,7 @@ class FavoritesAdapter(
         holder.binding.profileTitleTV.text = item.beruf
         holder.binding.profileNameTV.text = "${item.titel} ${item.vorname} ${item.name}"
         holder.binding.ratingBar4.rating = item.bewertung!!
-
         holder.binding.profileImageIV.load(imgUri) {
-
         }
 
         holder.binding.cardView.setOnClickListener {
@@ -88,4 +86,10 @@ class FavoritesAdapter(
             addView(this)
         }
     }
+
+        fun updateData(newData: ArrayList<PsychologistProfile>?) {
+            dataset = newData!!
+            notifyDataSetChanged()
+        }
+
 }

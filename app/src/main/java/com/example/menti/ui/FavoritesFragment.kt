@@ -60,18 +60,19 @@ class FavoritesFragment : Fragment() {
 
                     for (dc: DocumentChange in value?.documentChanges!!) {
                         if (dc.type == DocumentChange.Type.ADDED) {
+
                             var favorit = dc.document.data["reference"] as DocumentReference
                             var favoritRef = favorit.get().addOnSuccessListener {snapshot ->
                                 var profil = snapshot.toObject(PsychologistProfile::class.java)!!
                                 dataset.add(profil)
-                                Log.e("RV", "${profil.tags}")
+                                //Log.e("RV", "${profil.tags}")
+                                rvAdapter.updateData(dataset)
 
                             }
 
                         }
                     }
 
-                    rvAdapter.notifyDataSetChanged()
 
                 }
             })
