@@ -9,6 +9,6 @@ data class PsychologistProfile(
     var beruf: String ?= null,
     var bild: String?= null,
     var tags: ArrayList<String>?= null,
-    var beschreibung: String?= null
+    var beschreibung: String?= null,
 
 )

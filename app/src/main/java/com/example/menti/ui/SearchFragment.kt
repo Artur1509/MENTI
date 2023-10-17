@@ -51,7 +51,6 @@ class SearchFragment : Fragment() {
         EventChangeListener()
         Log.e("RV", "${dataset}")
 
-
     }
 
     private fun EventChangeListener() {

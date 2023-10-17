@@ -48,11 +48,6 @@ class SearchResultAdapter(
 
         }
 
-        holder.binding.addToFavoritesBTN.setOnClickListener {
-
-        }
-
-
         holder.binding.cardView.setOnClickListener {
 
             try {
@@ -80,7 +75,9 @@ class SearchResultAdapter(
 
         holder.binding.addToFavoritesBTN.setOnClickListener {
             firebaseViewModel.addFavorites(reference)
+            it.isActivated = true
         }
+
 
     }
 
@@ -100,4 +97,5 @@ class SearchResultAdapter(
             addView(this)
         }
     }
+
 }

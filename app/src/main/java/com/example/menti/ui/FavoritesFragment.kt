@@ -48,6 +48,9 @@ class FavoritesFragment : Fragment() {
 
         eventChangeListener()
         Log.e("RV", "${dataset}")
+
+
+
     }
 
     private fun eventChangeListener() {

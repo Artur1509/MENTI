@@ -14,7 +14,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import kotlin.coroutines.coroutineContext
 
@@ -122,13 +124,31 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
     // Add Favorites
     fun addFavorites(reference: DocumentReference) {
 
+        Log.e("Firestore", reference.toString())
+
         var favorit = hashMapOf(
             "reference" to reference
         )
-        firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").document().set(favorit)
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").document().set(favorit).addOnSuccessListener {
+            Log.e("Firestore", "Erfolgreich hinzugefügt")
+        }
 
+
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").whereEqualTo("reference", reference)
+            .get().addOnSuccessListener { documents ->
+                var docSize = documents.size()
+                var docIdList: MutableList<String> = mutableListOf()
+
+                if(docSize > 1) {
+                    for(document in documents) {
+                        docIdList.add(document.id)
+                    }
+                    firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").document(docIdList.last()).delete().addOnSuccessListener {
+                        Log.e("Firestore", "Erfolgreich gelöscht")
+                    }
+                }
+            }
     }
-
 
 
 
