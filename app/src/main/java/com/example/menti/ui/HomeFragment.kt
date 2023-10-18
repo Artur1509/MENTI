@@ -28,17 +28,21 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Navbar Sichtbarkeit
         val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.VISIBLE
 
+        // Zum Filterfragment
         binding.searchBTN.setOnClickListener{
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToFilterFragment())
         }
 
+        // Ausloggen
         binding.logoutBTN.setOnClickListener {
             firebaseViewModel.signOut()
         }
 
+        // Zum Profilangaben Fragment
         binding.toProfileBTN.setOnClickListener {
 
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())

@@ -33,6 +33,7 @@ class DetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Argumente die auf die Detailview übergeben werden
         arguments?.let {
             profilePicture = it.getString("profilePicture")
             titel = it.getString("titel")
@@ -62,11 +63,13 @@ class DetailFragment : Fragment() {
         val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.GONE
 
+        // Zurück zum Suchfragment
         binding.backToSearchBTN.setOnClickListener {
             findNavController().navigate(DetailFragmentDirections.actionDetailFragmentToSearchFragment())
             navBar.visibility = View.VISIBLE
         }
 
+        // Angaben im Detailprofil
         val imgUri = profilePicture!!.toUri().buildUpon().scheme("https").build()
         binding.detailProfileIV.load(imgUri)
 
@@ -74,7 +77,7 @@ class DetailFragment : Fragment() {
         binding.detailBerufTV.text = beruf!!
         binding.detailRatingRB.rating = bewertung!!
         binding.beschreibungTV.text = beschreibung!!
-
+        // Chips werden erstellt
         tags.forEach {
             binding.detailTagsCG.addChip(it)
         }
@@ -83,6 +86,7 @@ class DetailFragment : Fragment() {
 
     }
 
+    // Style der Chips im Detailfragment
     fun ChipGroup.addChip(label: String ) {
         Chip(context).apply {
 

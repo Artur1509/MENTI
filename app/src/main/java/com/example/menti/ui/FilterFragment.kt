@@ -26,20 +26,23 @@ class FilterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Navbar unsichtbar
         val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.GONE
 
+        // Zurück zum Homescreen
         binding.filterToHomeBTN.setOnClickListener {
             findNavController().navigate(FilterFragmentDirections.actionFilterFragmentToHomeFragment())
         }
 
+        // Weiter zu den Suchergebnissen
         binding.toSearchResultsBTN.setOnClickListener {
             findNavController().navigate(FilterFragmentDirections.actionFilterFragmentToSearchFragment())
         }
 
+        //Recyclerview
         val categoriesRV = binding.filterCategoriesRV
         val data = Categories().loadCategories()
-
         categoriesRV.adapter = FilterCategoriesAdapter(data)
     }
 

@@ -35,19 +35,30 @@ class SearchResultAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        //Dataset
         val item = dataset[position]
+        //Dokumentenreferenz des Psychologenprofils
         val reference = item.first
+        //Psychologenprofil item
         val profil = item.second
-        val imgUri = profil.bild!!.toUri().buildUpon().scheme("https").build()
 
+        // Profilbild und Text auf der Cardview
+        val imgUri = profil.bild!!.toUri().buildUpon().scheme("https").build()
         holder.binding.profileTitleTV.text = profil.beruf
         holder.binding.profileNameTV.text = "${profil.titel} ${profil.vorname} ${profil.name}"
         holder.binding.ratingBar4.rating = profil.bewertung!!
-
         holder.binding.profileImageIV.load(imgUri) {
 
         }
 
+        // Favoriten BTN -> Favorit hinzufügen
+        holder.binding.addToFavoritesBTN.setOnClickListener {
+            firebaseViewModel.addFavorites(reference)
+            it.isActivated = true
+        }
+
+
+        // Weiterleitung zum Detailfragment bei klick auf Cardview
         holder.binding.cardView.setOnClickListener {
 
             try {
@@ -67,17 +78,27 @@ class SearchResultAdapter(
             }
         }
 
+        // Für jeden Tag im Psychologenprofil wird ein Chip erstellt
         profil.tags!!.forEach {
 
             holder.binding.tagsCG.addChip(it)
 
         }
 
-        holder.binding.addToFavoritesBTN.setOnClickListener {
-            firebaseViewModel.addFavorites(reference)
-            it.isActivated = true
-        }
+        // Prüft ob die Profile aus der Search RV bereits als Favoriten hinzugefügt wurden, wenn ja dann wird das Favoriten Icon verändert.
+        val favorites: MutableList<DocumentReference> = mutableListOf()
 
+        firebaseViewModel.firestore.collection("Profile").document(firebaseViewModel.user.value!!.email!!).collection("Favoriten").get().addOnSuccessListener { documents ->
+
+            for(document in documents) {
+
+                favorites.add(document.data["reference"] as DocumentReference)
+
+                holder.binding.addToFavoritesBTN.isActivated = favorites.contains(reference)
+
+            }
+
+        }
 
     }
 
@@ -85,6 +106,7 @@ class SearchResultAdapter(
         return dataset.size
     }
 
+    // Style der Chips in der Chipgroup auf der Cardview
     fun ChipGroup.addChip(label: String ) {
         Chip(context).apply {
 

@@ -21,7 +21,7 @@ import java.util.EventListener
 class FavoritesFragment : Fragment() {
 
     private lateinit var binding: FragmentFavoritesBinding
-    private lateinit var dataset: ArrayList<PsychologistProfile>
+    private lateinit var dataset: ArrayList<Pair<String, PsychologistProfile>>
     private lateinit var rvAdapter: FavoritesAdapter
     private lateinit var favoritesRV: RecyclerView
 
@@ -39,13 +39,12 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Recyclerview
         favoritesRV = binding.favoritesRV
         favoritesRV.setHasFixedSize(true)
         dataset = arrayListOf()
-        rvAdapter = FavoritesAdapter(dataset)
-
+        rvAdapter = FavoritesAdapter(dataset, firebaseViewModel)
         favoritesRV.adapter = rvAdapter
-
         eventChangeListener()
         Log.e("RV", "${dataset}")
 
@@ -53,6 +52,7 @@ class FavoritesFragment : Fragment() {
 
     }
 
+    // Profile werden aus dem Firestore ins Dataset geladen
     private fun eventChangeListener() {
 
         firebaseViewModel.firestore.collection("Profile")
@@ -63,11 +63,11 @@ class FavoritesFragment : Fragment() {
 
                     for (dc: DocumentChange in value?.documentChanges!!) {
                         if (dc.type == DocumentChange.Type.ADDED) {
-
+                            var id = dc.document.id
                             var favorit = dc.document.data["reference"] as DocumentReference
                             var favoritRef = favorit.get().addOnSuccessListener {snapshot ->
                                 var profil = snapshot.toObject(PsychologistProfile::class.java)!!
-                                dataset.add(profil)
+                                dataset.add(Pair(id, profil))
                                 //Log.e("RV", "${profil.tags}")
                                 rvAdapter.updateData(dataset)
 

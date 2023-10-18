@@ -121,7 +121,7 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
 
     }
 
-    // Add Favorites
+    // Favoriten hinzufügen
     fun addFavorites(reference: DocumentReference) {
 
         Log.e("Firestore", reference.toString())
@@ -133,7 +133,7 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
             Log.e("Firestore", "Erfolgreich hinzugefügt")
         }
 
-
+        // Verhindern das Favoriten doppelt gespeichert werden können.
         firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").whereEqualTo("reference", reference)
             .get().addOnSuccessListener { documents ->
                 var docSize = documents.size()
@@ -150,6 +150,12 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
             }
     }
 
+    // Favorit entfernen
+    fun removeFavorite(id: String) {
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").document(id).delete().addOnSuccessListener {
+            Log.e("Firestore", "Erfolgreich gelöscht")
+        }
+    }
 
 
 }

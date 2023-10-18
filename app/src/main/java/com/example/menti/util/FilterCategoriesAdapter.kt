@@ -19,8 +19,10 @@ class FilterCategoriesAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        // Dataset
         val item = dataset[position]
 
+        // Text und Checkbox der Cardview
         holder.binding.categoryNameTV.text = item.name
         holder.binding.categoryCheckbox.isChecked = item.isChecked
 

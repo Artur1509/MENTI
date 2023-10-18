@@ -38,21 +38,22 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Navbar sichtbarkeit
         val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.VISIBLE
 
+        // Recyclerview
         searchRV = binding.searchResultsRV
         searchRV.setHasFixedSize(true)
         dataset = arrayListOf()
         rvAdapter = SearchResultAdapter(dataset, firebaseViewModel)
-
         searchRV.adapter = rvAdapter
-
         EventChangeListener()
         Log.e("RV", "${dataset}")
 
     }
 
+    // Profile werden aus dem Firstore ins Dataset geladen
     private fun EventChangeListener() {
 
         firebaseViewModel.firestore.collection("PsychologenProfile")
