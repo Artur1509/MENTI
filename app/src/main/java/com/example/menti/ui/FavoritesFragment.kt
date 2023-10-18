@@ -46,9 +46,6 @@ class FavoritesFragment : Fragment() {
         rvAdapter = FavoritesAdapter(dataset, firebaseViewModel)
         favoritesRV.adapter = rvAdapter
         eventChangeListener()
-        Log.e("RV", "${dataset}")
-
-
 
     }
 

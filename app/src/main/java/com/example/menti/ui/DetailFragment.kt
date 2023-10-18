@@ -63,9 +63,9 @@ class DetailFragment : Fragment() {
         val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.GONE
 
-        // Zurück zum Suchfragment
+        // Zurück zum vorherigen Fragment
         binding.backToSearchBTN.setOnClickListener {
-            findNavController().navigate(DetailFragmentDirections.actionDetailFragmentToSearchFragment())
+            findNavController().popBackStack()
             navBar.visibility = View.VISIBLE
         }
 
