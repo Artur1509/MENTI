@@ -82,6 +82,17 @@ class DetailFragment : Fragment() {
             binding.detailTagsCG.addChip(it)
         }
 
+        binding.terminBTN.setOnClickListener {
+            findNavController().navigate(DetailFragmentDirections.actionDetailFragmentToLeistungenFragment(
+                profilePicture = profilePicture!!,
+                vorname = vorname!!,
+                name = name!!,
+                beruf = beruf!!,
+                titel = titel!!,
+                bewertung = bewertung!!
+            ))
+        }
+
 
 
     }

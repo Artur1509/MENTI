@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.menti.data.Categories
+import com.example.menti.data.model.Category
 import com.example.menti.ui.ProfileFragment
 import com.example.menti.ui.ProfileFragmentDirections
 import com.example.menti.util.SearchResultAdapter
@@ -24,8 +26,18 @@ import kotlin.coroutines.coroutineContext
 // val app hinzugefügt
 class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
 
+    //Firebase Authentication
     val auth = FirebaseAuth.getInstance()
+    //Firebase Datenbank
     val firestore = FirebaseFirestore.getInstance()
+
+    //Alle Filterkategorien
+    val filterCathegories = Categories()
+
+    //Ausgewählte Filterkategorien
+    private val _selectedFilter: MutableLiveData<List<String>> = MutableLiveData()
+    val selectedFilter: LiveData<List<String>>
+        get() = _selectedFilter
 
     //User Profil Dokument Referenz
     lateinit var profileRef : DocumentReference
@@ -155,6 +167,21 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").document(id).delete().addOnSuccessListener {
             Log.e("Firestore", "Erfolgreich gelöscht")
         }
+    }
+
+    //Filter anpassen
+
+    fun selectFilterOptions(dataset: List<Category>) {
+
+        var checkedCategories = mutableListOf<String>()
+        for(category in dataset) {
+            if(category.isChecked) {
+                checkedCategories.add(category.name)
+            }
+        }
+
+        _selectedFilter.value = checkedCategories
+        Log.e("Filter", _selectedFilter.value!!.toString())
     }
 
 

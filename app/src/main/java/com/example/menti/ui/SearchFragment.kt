@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.menti.FirebaseViewModel
+import com.example.menti.data.model.Category
 import com.example.menti.data.model.PsychologistProfile
 import com.example.menti.databinding.FragmentSearchBinding
 import com.example.menti.util.SearchResultAdapter
@@ -38,6 +39,8 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.e("Filter", firebaseViewModel.selectedFilter.value.toString())
+
         //Navbar sichtbarkeit
         val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.VISIBLE
@@ -48,13 +51,30 @@ class SearchFragment : Fragment() {
         dataset = arrayListOf()
         rvAdapter = SearchResultAdapter(dataset, firebaseViewModel)
         searchRV.adapter = rvAdapter
-        EventChangeListener()
-        Log.e("RV", "${dataset}")
+
+        eventChangeListener()
+
+        firebaseViewModel.selectedFilter.observe(viewLifecycleOwner) {
+            rvAdapter.filter(it)
+        }
+
+
+
+
+    }
+
+    private fun filterData(query: Collection<String>) {
+
+        dataset.filter {
+            it.second.tags!!.containsAll(query)
+        }
+        rvAdapter.notifyDataSetChanged()
+
 
     }
 
     // Profile werden aus dem Firstore ins Dataset geladen
-    private fun EventChangeListener() {
+    private fun eventChangeListener() {
 
         firebaseViewModel.firestore.collection("PsychologenProfile")
             .addSnapshotListener(object : EventListener,

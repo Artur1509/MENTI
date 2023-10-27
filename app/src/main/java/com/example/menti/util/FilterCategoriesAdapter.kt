@@ -1,13 +1,16 @@
 package com.example.menti.util
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.menti.FirebaseViewModel
 import com.example.menti.data.model.Category
 import com.example.menti.databinding.FilterListItemBinding
 
 class FilterCategoriesAdapter(
     var dataset: List<Category>,
+    var viewModel: FirebaseViewModel
 
     ): RecyclerView.Adapter<FilterCategoriesAdapter.ItemViewHolder>() {
     class ItemViewHolder(val binding: FilterListItemBinding) :
@@ -24,7 +27,10 @@ class FilterCategoriesAdapter(
 
         // Text und Checkbox der Cardview
         holder.binding.categoryNameTV.text = item.name
-        holder.binding.categoryCheckbox.isChecked = item.isChecked
+
+        holder.binding.categoryCheckbox.setOnClickListener {
+            item.isChecked = holder.binding.categoryCheckbox.isChecked
+        }
 
     }
 

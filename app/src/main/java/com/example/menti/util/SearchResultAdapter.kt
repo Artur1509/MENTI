@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -48,8 +49,8 @@ class SearchResultAdapter(
         holder.binding.profileNameTV.text = "${profil.titel} ${profil.vorname} ${profil.name}"
         holder.binding.ratingBar4.rating = profil.bewertung!!
         holder.binding.profileImageIV.load(imgUri) {
-
         }
+
 
         // Favoriten BTN -> Favorit hinzufügen
         holder.binding.addToFavoritesBTN.setOnClickListener {
@@ -118,6 +119,13 @@ class SearchResultAdapter(
             setEnsureMinTouchTargetSize(false)
             addView(this)
         }
+    }
+
+    fun filter(query: List<String>) {
+        dataset.filter() {
+            it.second.tags!!.containsAll(query)
+        }
+        notifyDataSetChanged()
     }
 
 }
