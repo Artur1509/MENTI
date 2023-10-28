@@ -1,9 +1,13 @@
 package com.example.menti.util
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.example.menti.FirebaseViewModel
+import com.example.menti.R
 import com.example.menti.data.model.Leistung
 import com.example.menti.databinding.LeistungListItemBinding
 
@@ -12,8 +16,6 @@ class LeistungenAdapter(
     var viewModel: FirebaseViewModel
 
 ): RecyclerView.Adapter<LeistungenAdapter.ItemViewHolder>() {
-
-    var lastcheckedposition: Int = 0
 
     class ItemViewHolder(val binding: LeistungListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -29,14 +31,27 @@ class LeistungenAdapter(
 
         holder.binding.leistungTV.text = item.beschreibung
         holder.binding.preisTV.text = item.preis
-        holder.binding.checkBox.isChecked = item.selected
+        holder.binding.checkBoxCB.isChecked = item.isChecked
+
+        // Nur eine Checkbox auswählbar
+        holder.binding.checkBoxCB.setOnClickListener {
+
+            for(i in dataset.indices) {
+                dataset[i].isChecked = (i == position)
+            }
+            holder.binding.checkBoxCB.isChecked = item.isChecked
+            notifyDataSetChanged()
+
+        }
+        Log.e("checkbox", item.isChecked.toString())
+
+
 
     }
 
     override fun getItemCount(): Int {
         return dataset.size
     }
-
 
 }
 

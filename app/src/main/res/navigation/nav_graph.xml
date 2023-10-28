@@ -162,5 +162,35 @@
         <argument
             android:name="bewertung"
             app:argType="float" />
+        <action
+            android:id="@+id/action_leistungenFragment_to_termineFragment"
+            app:destination="@id/termineFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/termineFragment"
+        android:name="com.example.menti.ui.TermineFragment"
+        android:label="fragment_termine"
+        tools:layout="@layout/fragment_termine" >
+        <action
+            android:id="@+id/action_termineFragment_to_leistungenFragment"
+            app:destination="@id/leistungenFragment" />
+        <argument
+            android:name="profilePicture"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="vorname"
+            app:argType="string" />
+        <argument
+            android:name="beruf"
+            app:argType="string" />
+        <argument
+            android:name="titel"
+            app:argType="string" />
+        <argument
+            android:name="bewertung"
+            app:argType="float" />
     </fragment>
 </navigation>

@@ -10,13 +10,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.menti.FirebaseViewModel
-import com.example.menti.data.Leistungen
+import com.example.menti.R
 import com.example.menti.databinding.FragmentLeistungenBinding
-import com.example.menti.util.LeistungenAdapter
+import com.example.menti.databinding.FragmentTermineBinding
 
-class LeistungenFragment : Fragment() {
+class TermineFragment : Fragment() {
 
-    private lateinit var binding: FragmentLeistungenBinding
+    private lateinit var binding: FragmentTermineBinding
     val firebaseViewModel: FirebaseViewModel by activityViewModels()
 
     var profilePicture: String? = ""
@@ -26,11 +26,8 @@ class LeistungenFragment : Fragment() {
     var beruf: String? = ""
     var bewertung: Float? = 0F
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //Argumente die auf die Detailview übergeben werden
         arguments?.let {
             profilePicture = it.getString("profilePicture")
             titel = it.getString("titel")
@@ -39,7 +36,6 @@ class LeistungenFragment : Fragment() {
             beruf = it.getString("beruf")
             bewertung = it.getFloat("bewertung")
         }
-
     }
 
     override fun onCreateView(
@@ -47,41 +43,22 @@ class LeistungenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentLeistungenBinding.inflate(inflater, container, false)
+        binding = FragmentTermineBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Recyclerview
-        val leistungenRV = binding.leistungenRV
-        val data = Leistungen().loadLeistungen()
-        leistungenRV.adapter = LeistungenAdapter(data, firebaseViewModel)
+        val imgUri = profilePicture!!.toUri().buildUpon().scheme("https").build()
+        binding.termineProfileIV.load(imgUri)
+        binding.termineProfileNameTV.text = "${titel!!} ${vorname!!} ${name!!}"
+        binding.termineProfileBerufTV.text = beruf
+        binding.termineRB.rating = bewertung!!
 
-        binding.backToDetailBTN.setOnClickListener {
+        binding.backToLeistungenBTN.setOnClickListener {
             findNavController().popBackStack()
         }
-
-        val imgUri = profilePicture!!.toUri().buildUpon().scheme("https").build()
-        binding.leistungProfilIV.load(imgUri)
-
-        binding.detailName2TV.text = "${titel!!} ${vorname!!} ${name!!}"
-        binding.detailBerufTV2.text = beruf!!
-        binding.leistungRatingBar.rating = bewertung!!
-
-        binding.toTermineBTN.setOnClickListener {
-            findNavController().navigate(LeistungenFragmentDirections.actionLeistungenFragmentToTermineFragment(
-                profilePicture = profilePicture!!,
-                vorname = vorname!!,
-                name = name!!,
-                beruf = beruf!!,
-                titel = titel!!,
-                bewertung = bewertung!!
-            ))
-        }
-
-
     }
 
 }
