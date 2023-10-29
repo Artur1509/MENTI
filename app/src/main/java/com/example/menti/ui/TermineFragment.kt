@@ -11,8 +11,12 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.menti.FirebaseViewModel
 import com.example.menti.R
+import com.example.menti.data.Categories
+import com.example.menti.data.Termine
 import com.example.menti.databinding.FragmentLeistungenBinding
 import com.example.menti.databinding.FragmentTermineBinding
+import com.example.menti.util.FilterCategoriesAdapter
+import com.example.menti.util.TermineAdapter
 
 class TermineFragment : Fragment() {
 
@@ -49,6 +53,10 @@ class TermineFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val termineRV = binding.termineRV
+        val data = Termine().loadTermine()
+        termineRV.adapter = TermineAdapter(data, firebaseViewModel, requireContext())
 
         val imgUri = profilePicture!!.toUri().buildUpon().scheme("https").build()
         binding.termineProfileIV.load(imgUri)

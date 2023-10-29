@@ -9,5 +9,7 @@
     <style name="CheckboxStyle">
         <item name="colorControlNormal">@color/primary</item>
         <item name="colorAccent">@color/primary</item>
+        <item name="colorButtonNormal">@color/primary</item>
+        <item name="android:colorButtonNormal">@color/primary</item>
     </style>
 </resources>
