@@ -3,10 +3,14 @@ package com.example.menti.util
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.forEach
+import androidx.core.view.get
+import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import com.example.menti.FirebaseViewModel
 import com.example.menti.R
@@ -22,6 +26,7 @@ class TermineAdapter(
     var context : Context
 
 ): RecyclerView.Adapter<TermineAdapter.ItemViewHolder>() {
+    private var selectedChipId: Int = View.NO_ID
     class ItemViewHolder(val binding: TermineListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -44,25 +49,43 @@ class TermineAdapter(
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
         }
 
-        item.uhrzeit.forEach {
-            holder.binding.uhrzeitenCG.addChip(it.zeit)
-        }
-
         // Chip hintergrundfarbe wie background des RV items
         val chipGroup: ChipGroup = holder.binding.uhrzeitenCG
+        chipGroup.isSingleSelection
         val background = (holder.itemView.background as ColorDrawable).color
+
+        while(chipGroup.size != item.uhrzeit.size) {
+            item.uhrzeit.forEach {
+                holder.binding.uhrzeitenCG.addChip(it.zeit)
+            }
+        }
 
         for (i in 0 until chipGroup.childCount) {
             val chip = chipGroup.getChildAt(i) as Chip
-            chip.chipBackgroundColor = ColorStateList.valueOf(background)
+            chip.isCheckable = true
 
-            chip.setOnClickListener {
-                item.uhrzeit.forEach {
-                    it.isChecked
-                }
+            if (chip.id == selectedChipId) {
+                // Dieser Chip ist ausgewählt
+                chip.setChipBackgroundColorResource(R.color.primary)
+                chip.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white)))
+            } else {
+                // Dieser Chip ist nicht ausgewählt
+                chip.chipBackgroundColor = ColorStateList.valueOf(background)
+                chip.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.primary)))
             }
 
+            chip.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    if (chip.id != selectedChipId) {
+                        // Neuer Chip ausgewählt, setze die Auswahl zurück und aktualisiere den ausgewählten Chip
+                        selectedChipId = chip.id
+                        notifyDataSetChanged()// Aktualisiere die Ansicht, um die Änderungen zu reflektieren
+                    }
+                }
+            }
         }
+
+        Log.e("termine", dataset.toString())
 
     }
 
