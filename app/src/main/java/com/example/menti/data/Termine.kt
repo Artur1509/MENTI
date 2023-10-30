@@ -14,4 +14,10 @@ class Termine {
             TerminDaten("Freitag, 15.12.2023", listOf(Uhrzeit("09:00", false))),
         )
     }
+
+    //Filtert die Liste der Termindaten nach dem Element welches bei der Uhrzeit isChecked = true hat.
+    fun filterCheckedTerminDaten(termine: List<TerminDaten>): List<TerminDaten> {
+        return termine.filter { termin -> termin.uhrzeit.any { it.isChecked } }
+    }
+
 }

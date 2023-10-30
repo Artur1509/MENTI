@@ -10,11 +10,14 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.core.view.get
+import androidx.core.view.indices
 import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import com.example.menti.FirebaseViewModel
 import com.example.menti.R
+import com.example.menti.data.Termine
 import com.example.menti.data.model.TerminDaten
+import com.example.menti.data.model.Uhrzeit
 import com.example.menti.databinding.TermineListItemBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -60,16 +63,21 @@ class TermineAdapter(
             }
         }
 
+        val termine = Termine()
+        val alleTermine = dataset
+
+
+        // Sorgt dafür das nur ein Chip in der gesamten Recyclerview ausgewählt werden kann, damit die entsprechende Uhrzeit und das datum ins viewmodel übertagen werden können
         for (i in 0 until chipGroup.childCount) {
             val chip = chipGroup.getChildAt(i) as Chip
             chip.isCheckable = true
 
             if (chip.id == selectedChipId) {
-                // Dieser Chip ist ausgewählt
+                // selected chip
                 chip.setChipBackgroundColorResource(R.color.primary)
                 chip.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white)))
             } else {
-                // Dieser Chip ist nicht ausgewählt
+                // unselected chip
                 chip.chipBackgroundColor = ColorStateList.valueOf(background)
                 chip.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.primary)))
             }
@@ -79,13 +87,39 @@ class TermineAdapter(
                     if (chip.id != selectedChipId) {
                         // Neuer Chip ausgewählt, setze die Auswahl zurück und aktualisiere den ausgewählten Chip
                         selectedChipId = chip.id
-                        notifyDataSetChanged()// Aktualisiere die Ansicht, um die Änderungen zu reflektieren
+
+                        // Setzt alle isChecked booleans im dataset auf false
+                        for(i in dataset.indices) {
+                            dataset[i].uhrzeit.forEach {
+                                it.isChecked = false
+                            }
+                        }
+                        // Setzt das item mit dem index des ausgewählten chips auf true
+                        item.uhrzeit[chipGroup.indexOfChild(chip)].isChecked = true
+
+                        //Hier wird der ausgewählte Termin ermittelt (Datum + Uhrzeit)
+                        val gefilterteTermine = termine.filterCheckedTerminDaten(alleTermine)
+
+                        gefilterteTermine.forEach {
+                            it.uhrzeit.forEach {
+                                if(it.isChecked) {
+                                    Log.e("termine1", "${gefilterteTermine.first().datum} ${it.zeit}")
+                                }
+                            }
+                        }
+
+                        notifyDataSetChanged()
+
+
                     }
                 }
             }
         }
 
         Log.e("termine", dataset.toString())
+
+
+
 
     }
 
@@ -105,8 +139,6 @@ class TermineAdapter(
             addView(this)
         }
     }
-
-
 
 
 }
