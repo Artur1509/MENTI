@@ -9,10 +9,12 @@ import com.example.menti.data.model.Category
 import com.example.menti.databinding.FilterListItemBinding
 
 class FilterCategoriesAdapter(
-    var dataset: List<Category>,
+
+    var originalDataset: List<Category>,
     var viewModel: FirebaseViewModel
 
     ): RecyclerView.Adapter<FilterCategoriesAdapter.ItemViewHolder>() {
+    private var dataset = originalDataset
     class ItemViewHolder(val binding: FilterListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -36,6 +38,17 @@ class FilterCategoriesAdapter(
 
     override fun getItemCount(): Int {
         return dataset.size
+    }
+
+
+    // Recylcerview nach Suchbegriff Filtern
+    fun filterItems(textInput: String) {
+        dataset = originalDataset.filter { item ->
+            item.name.contains(textInput, ignoreCase = true)
+
+        }
+        Log.e("filter", textInput)
+        notifyDataSetChanged()
     }
 
 

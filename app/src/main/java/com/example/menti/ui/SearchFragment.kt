@@ -52,26 +52,17 @@ class SearchFragment : Fragment() {
         rvAdapter = SearchResultAdapter(dataset, firebaseViewModel)
         searchRV.adapter = rvAdapter
 
+        firebaseViewModel.selectedFilter.observe(viewLifecycleOwner) { selectedFilter ->
+            rvAdapter.filter(selectedFilter)
+            Log.e("filter", selectedFilter.toString())
+        }
         eventChangeListener()
 
-        firebaseViewModel.selectedFilter.observe(viewLifecycleOwner) {
-            rvAdapter.filter(it)
-        }
-
 
 
 
     }
 
-    private fun filterData(query: Collection<String>) {
-
-        dataset.filter {
-            it.second.tags!!.containsAll(query)
-        }
-        rvAdapter.notifyDataSetChanged()
-
-
-    }
 
     // Profile werden aus dem Firstore ins Dataset geladen
     private fun eventChangeListener() {

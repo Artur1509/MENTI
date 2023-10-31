@@ -1,11 +1,14 @@
 package com.example.menti.ui
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.menti.FirebaseViewModel
@@ -33,7 +36,8 @@ class FilterFragment : Fragment() {
         //Recyclerview
         val categoriesRV = binding.filterCategoriesRV
         val data = Categories().loadCategories()
-        categoriesRV.adapter = FilterCategoriesAdapter(data, firebaseViewModel)
+        val filterCategoriesAdapter = FilterCategoriesAdapter(data, firebaseViewModel)
+        categoriesRV.adapter = filterCategoriesAdapter
 
         //Navbar unsichtbar
         val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
@@ -50,6 +54,21 @@ class FilterFragment : Fragment() {
             firebaseViewModel.selectFilterOptions(data)
             Log.e("Filter", data.toString() )
         }
+
+        // Filtert die Recyclerveiw nach dem Textinput in der Suche
+        binding.filterInputET.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val textInput = s.toString()
+                filterCategoriesAdapter.filterItems(textInput)
+            }
+        })
 
 
     }

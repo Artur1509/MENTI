@@ -1,6 +1,6 @@
 package com.example.menti.util
 
-import android.content.ClipData.Item
+
 import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -16,7 +15,6 @@ import com.example.menti.FirebaseViewModel
 import com.example.menti.R
 import com.example.menti.data.model.PsychologistProfile
 import com.example.menti.databinding.ListItemBinding
-import com.example.menti.ui.SearchFragment
 import com.example.menti.ui.SearchFragmentDirections
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -86,6 +84,13 @@ class SearchResultAdapter(
 
         }
 
+        val chipGroup = holder.binding.tagsCG
+
+
+
+
+
+
         // Prüft ob die Profile aus der Search RV bereits als Favoriten hinzugefügt wurden, wenn ja dann wird das Favoriten Icon verändert.
         val favorites: MutableList<DocumentReference> = mutableListOf()
 
@@ -122,9 +127,11 @@ class SearchResultAdapter(
     }
 
     fun filter(query: List<String>) {
-        dataset.filter() {
-            it.second.tags!!.containsAll(query)
+        val filteredDataset = dataset.filter { item ->
+            item.second.tags?.containsAll(query) == true
         }
+        dataset.clear()
+        dataset.addAll(filteredDataset)
         notifyDataSetChanged()
     }
 

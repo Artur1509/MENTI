@@ -57,12 +57,14 @@ class TermineAdapter(
         chipGroup.isSingleSelection
         val background = (holder.itemView.background as ColorDrawable).color
 
+        // Hier werden die Chips anhand der Uhrzeiten im Dataset erstellt, die while schleife verhindert das die chips bei jedem click auf einen chip dupliziert werden.
         while(chipGroup.size != item.uhrzeit.size) {
             item.uhrzeit.forEach {
                 holder.binding.uhrzeitenCG.addChip(it.zeit)
             }
         }
 
+        //Hilfsvariablen für Filter der das TerminDaten Objekt raussucht in dem sich die ausgewählte Uhrzeit befindet.
         val termine = Termine()
         val alleTermine = dataset
 
@@ -100,6 +102,7 @@ class TermineAdapter(
                         //Hier wird der ausgewählte Termin ermittelt (Datum + Uhrzeit)
                         val gefilterteTermine = termine.filterCheckedTerminDaten(alleTermine)
 
+                        // Holt die exakte uhrzeit aus dem ausgewählten termin
                         gefilterteTermine.forEach {
                             it.uhrzeit.forEach {
                                 if(it.isChecked) {
