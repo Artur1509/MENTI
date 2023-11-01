@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.forEach
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -84,13 +85,6 @@ class SearchResultAdapter(
 
         }
 
-        val chipGroup = holder.binding.tagsCG
-
-
-
-
-
-
         // Prüft ob die Profile aus der Search RV bereits als Favoriten hinzugefügt wurden, wenn ja dann wird das Favoriten Icon verändert.
         val favorites: MutableList<DocumentReference> = mutableListOf()
 
@@ -105,6 +99,8 @@ class SearchResultAdapter(
             }
 
         }
+
+        Log.e("filterOriginalDataset", dataset.toString())
 
     }
 
@@ -130,9 +126,13 @@ class SearchResultAdapter(
         val filteredDataset = dataset.filter { item ->
             item.second.tags?.containsAll(query) == true
         }
+        dataset.toMutableList()
         dataset.clear()
         dataset.addAll(filteredDataset)
         notifyDataSetChanged()
+        Log.e("filter", "Wird ausgeführt")
+        Log.e("filterquery", query.toString())
+        Log.e("filteredDataset", filteredDataset.toString())
     }
 
 }

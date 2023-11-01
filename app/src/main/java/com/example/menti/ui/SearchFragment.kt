@@ -52,6 +52,7 @@ class SearchFragment : Fragment() {
         rvAdapter = SearchResultAdapter(dataset, firebaseViewModel)
         searchRV.adapter = rvAdapter
 
+        // Filter der RV
         firebaseViewModel.selectedFilter.observe(viewLifecycleOwner) { selectedFilter ->
             rvAdapter.filter(selectedFilter)
             Log.e("filter", selectedFilter.toString())
