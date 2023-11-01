@@ -23,7 +23,7 @@ import java.util.EventListener
 class SearchFragment : Fragment() {
 
     private lateinit var searchRV: RecyclerView
-    private lateinit var dataset: ArrayList<Pair<DocumentReference, PsychologistProfile>>
+    private var dataset: ArrayList<Pair<DocumentReference, PsychologistProfile>> = arrayListOf()
     private lateinit var rvAdapter: SearchResultAdapter
 
     private lateinit var binding: FragmentSearchBinding
@@ -48,7 +48,7 @@ class SearchFragment : Fragment() {
         // Recyclerview
         searchRV = binding.searchResultsRV
         searchRV.setHasFixedSize(true)
-        dataset = arrayListOf()
+        //dataset = arrayListOf()
         rvAdapter = SearchResultAdapter(dataset, firebaseViewModel)
         searchRV.adapter = rvAdapter
 

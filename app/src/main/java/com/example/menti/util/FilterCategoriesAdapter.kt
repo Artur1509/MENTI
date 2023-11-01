@@ -47,7 +47,6 @@ class FilterCategoriesAdapter(
             item.name.contains(textInput, ignoreCase = true)
 
         }
-        Log.e("filter", textInput)
         notifyDataSetChanged()
     }
 

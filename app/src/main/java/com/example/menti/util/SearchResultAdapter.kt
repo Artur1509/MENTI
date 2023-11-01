@@ -22,10 +22,11 @@ import com.google.android.material.chip.ChipGroup
 import com.google.firebase.firestore.DocumentReference
 
 class SearchResultAdapter(
-    var dataset: ArrayList<Pair<DocumentReference, PsychologistProfile>>,
+    var originalDataset: ArrayList<Pair<DocumentReference, PsychologistProfile>>,
     var firebaseViewModel: FirebaseViewModel
 
     ): RecyclerView.Adapter<SearchResultAdapter.ItemViewHolder>() {
+    private var dataset = originalDataset
     class ItemViewHolder(val binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -102,6 +103,7 @@ class SearchResultAdapter(
 
         Log.e("filterOriginalDataset", dataset.toString())
 
+
     }
 
     override fun getItemCount(): Int {
@@ -123,16 +125,19 @@ class SearchResultAdapter(
     }
 
     fun filter(query: List<String>) {
-        val filteredDataset = dataset.filter { item ->
+        Log.e("eFilter1", "${dataset}")
+        Log.e("eFilter2", "${query}")
+
+        dataset = originalDataset.filter { item ->
             item.second.tags?.containsAll(query) == true
-        }
-        dataset.toMutableList()
-        dataset.clear()
-        dataset.addAll(filteredDataset)
-        notifyDataSetChanged()
-        Log.e("filter", "Wird ausgeführt")
-        Log.e("filterquery", query.toString())
-        Log.e("filteredDataset", filteredDataset.toString())
+        } as ArrayList<Pair<DocumentReference, PsychologistProfile>>
+        Log.e("eFilter3", "${originalDataset}")
+        //dataset.clear()
+       //dataset.addAll(filteredDataset)
+       notifyDataSetChanged()
+       // Log.e("filter", "Wird ausgeführt")
+       //Log.e("filterquery", query.toString())
+       //Log.e("filteredDataset", filteredDataset.toString())
     }
 
 }
