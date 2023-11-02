@@ -192,5 +192,29 @@
         <argument
             android:name="bewertung"
             app:argType="float" />
+        <action
+            android:id="@+id/action_termineFragment_to_persoenlicheAngabenFragment"
+            app:destination="@id/persoenlicheAngabenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/persoenlicheAngabenFragment"
+        android:name="com.example.menti.ui.PersoenlicheAngabenFragment"
+        android:label="fragment_persoenlicheangaben"
+        tools:layout="@layout/fragment_persoenlicheangaben" >
+        <action
+            android:id="@+id/action_persoenlicheAngabenFragment_to_termineFragment"
+            app:destination="@id/termineFragment" />
+        <action
+            android:id="@+id/action_persoenlicheAngabenFragment_to_zahlungsartenFragment"
+            app:destination="@id/zahlungsartenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/zahlungsartenFragment"
+        android:name="com.example.menti.ui.ZahlungsartenFragment"
+        android:label="fragment_zahlungsarten"
+        tools:layout="@layout/fragment_zahlungsarten" >
+        <action
+            android:id="@+id/action_zahlungsartenFragment_to_persoenlicheAngabenFragment"
+            app:destination="@id/persoenlicheAngabenFragment" />
     </fragment>
 </navigation>

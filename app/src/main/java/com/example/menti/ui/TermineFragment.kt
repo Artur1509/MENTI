@@ -67,6 +67,10 @@ class TermineFragment : Fragment() {
         binding.backToLeistungenBTN.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        binding.toZahlungsoptionenBTN.setOnClickListener {
+            findNavController().navigate(TermineFragmentDirections.actionTermineFragmentToPersoenlicheAngabenFragment())
+        }
     }
 
 }
