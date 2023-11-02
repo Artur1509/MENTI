@@ -1,6 +1,7 @@
 package com.example.menti.util
 
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.forEach
+import androidx.core.view.get
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -23,7 +25,8 @@ import com.google.firebase.firestore.DocumentReference
 
 class SearchResultAdapter(
     var originalDataset: List<Pair<DocumentReference, PsychologistProfile>>,
-    var firebaseViewModel: FirebaseViewModel
+    var firebaseViewModel: FirebaseViewModel,
+    var context : Context,
 
     ): RecyclerView.Adapter<SearchResultAdapter.ItemViewHolder>() {
     private var dataset = originalDataset
@@ -86,6 +89,30 @@ class SearchResultAdapter(
 
         }
 
+        // Chips die mit den Suchbegriffen im Filter übereinstimmen werden farblich hervorgehoben.
+        var chipGroup = holder.binding.tagsCG
+        if(firebaseViewModel.selectedFilter.value!!.isNotEmpty()) {
+
+            firebaseViewModel.selectedFilter.value!!.forEach {
+
+                try {
+
+                    val chip = chipGroup.getChildAt(profil.tags!!.indexOf(it)) as Chip
+                    chip.setChipStrokeColorResource(R.color.accent)
+                    chip.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.accent)))
+
+                }catch (e: Exception) {
+                    Log.e("Chips", e.message.toString())
+                }
+            }
+
+
+
+        }
+
+
+
+
         // Prüft ob die Profile aus der Search RV bereits als Favoriten hinzugefügt wurden, wenn ja dann wird das Favoriten Icon verändert.
         val favorites: MutableList<DocumentReference> = mutableListOf()
 
@@ -124,6 +151,7 @@ class SearchResultAdapter(
         }
     }
 
+    // Filter für die RV
     fun filter(query: List<String>) {
 
         dataset = originalDataset.filter { item ->

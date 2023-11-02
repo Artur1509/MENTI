@@ -62,7 +62,7 @@ class SearchFragment : Fragment() {
                     loadedData.add(pair)
                 }
                 //Adapter wird erstellt und mit den neuen daten initialisiert
-                rvAdapter = SearchResultAdapter(loadedData, firebaseViewModel)
+                rvAdapter = SearchResultAdapter(loadedData, firebaseViewModel, requireContext())
                 searchRV.adapter = rvAdapter
 
                 //Ausführung des Filters, wenn die variable in der die begriffe gespeichert werden nicht leer ist.

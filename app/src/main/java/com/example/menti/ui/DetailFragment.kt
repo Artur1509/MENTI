@@ -2,6 +2,7 @@ package com.example.menti.ui
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -82,6 +83,7 @@ class DetailFragment : Fragment() {
             binding.detailTagsCG.addChip(it)
         }
 
+
         binding.terminBTN.setOnClickListener {
             findNavController().navigate(DetailFragmentDirections.actionDetailFragmentToLeistungenFragment(
                 profilePicture = profilePicture!!,
@@ -91,6 +93,31 @@ class DetailFragment : Fragment() {
                 titel = titel!!,
                 bewertung = bewertung!!
             ))
+        }
+
+        // Chips die mit den Suchbegriffen im Filter übereinstimmen werden farblich hervorgehoben.
+        var chipGroup = binding.detailTagsCG
+        if(firebaseViewModel.selectedFilter.value!!.isNotEmpty()) {
+
+            firebaseViewModel.selectedFilter.value!!.forEach {
+
+                try {
+
+                    val chip = chipGroup.getChildAt(tags.indexOf(it)) as Chip
+                    chip.setChipStrokeColorResource(R.color.accent)
+                    chip.setTextColor(
+                        ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.accent
+                            )
+                        )
+                    )
+
+                } catch (e: Exception) {
+                    Log.e("Chips", e.message.toString())
+                }
+            }
         }
 
 
