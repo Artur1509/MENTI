@@ -9,25 +9,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.menti.FirebaseViewModel
-import com.example.menti.data.model.Category
 import com.example.menti.data.model.PsychologistProfile
 import com.example.menti.databinding.FragmentSearchBinding
 import com.example.menti.util.SearchResultAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
-import java.util.EventListener
+
 
 class SearchFragment : Fragment() {
 
     private lateinit var searchRV: RecyclerView
-    private var dataset: ArrayList<Pair<DocumentReference, PsychologistProfile>> = arrayListOf()
     private lateinit var rvAdapter: SearchResultAdapter
-
     private lateinit var binding: FragmentSearchBinding
     val firebaseViewModel: FirebaseViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,59 +34,43 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.e("Filter", firebaseViewModel.selectedFilter.value.toString())
-
-        //Navbar sichtbarkeit
+        // Navbar sichtbarkeit
         val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.VISIBLE
 
-        // Recyclerview
+        //Recyclerview
         searchRV = binding.searchResultsRV
         searchRV.setHasFixedSize(true)
-        //dataset = arrayListOf()
-        rvAdapter = SearchResultAdapter(dataset, firebaseViewModel)
-        searchRV.adapter = rvAdapter
 
-        // Filter der RV
-        firebaseViewModel.selectedFilter.observe(viewLifecycleOwner) { selectedFilter ->
-            rvAdapter.filter(selectedFilter)
-            Log.e("filter", selectedFilter.toString())
-        }
-        eventChangeListener()
-
-
-
+        // Daten werden geladen und gefiltert
+        loadDataFromFirestoreAndInitializeAdapter()
 
     }
 
-
-    // Profile werden aus dem Firstore ins Dataset geladen
-    private fun eventChangeListener() {
-
+    // Funktion um Daten aus dem Firestore zu laden und zu filtern, wenn ein filter aktiviert ist.
+    fun loadDataFromFirestoreAndInitializeAdapter() {
         firebaseViewModel.firestore.collection("PsychologenProfile")
-            .addSnapshotListener(object : EventListener,
-                com.google.firebase.firestore.EventListener<QuerySnapshot> {
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val loadedData: MutableList<Pair<DocumentReference, PsychologistProfile>> = mutableListOf()
 
-                    for (dc: DocumentChange in value?.documentChanges!!) {
-
-                        if(dc.type == DocumentChange.Type.ADDED ) {
-                            val pair = Pair<DocumentReference, PsychologistProfile>(
-                                dc.document.reference,
-                                dc.document.toObject(PsychologistProfile::class.java
-                            ))
-                            dataset.add(pair)
-                        }
-                    }
-
-                    rvAdapter.notifyDataSetChanged()
-
+                for (document in querySnapshot) {
+                    val pair = Pair<DocumentReference, PsychologistProfile>(
+                        document.reference,
+                        document.toObject(PsychologistProfile::class.java)
+                    )
+                    loadedData.add(pair)
                 }
-            })
+                //Adapter wird erstellt und mit den neuen daten initialisiert
+                rvAdapter = SearchResultAdapter(loadedData, firebaseViewModel)
+                searchRV.adapter = rvAdapter
 
-
-
-
+                //Ausführung des Filters, wenn die variable in der die begriffe gespeichert werden nicht leer ist.
+                firebaseViewModel.selectedFilter.value?.let { selectedFilter ->
+                    if (selectedFilter.isNotEmpty()) {
+                        rvAdapter.filter(selectedFilter)
+                    }
+                }
+            }
     }
-
 }

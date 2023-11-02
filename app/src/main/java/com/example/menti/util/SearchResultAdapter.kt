@@ -22,7 +22,7 @@ import com.google.android.material.chip.ChipGroup
 import com.google.firebase.firestore.DocumentReference
 
 class SearchResultAdapter(
-    var originalDataset: ArrayList<Pair<DocumentReference, PsychologistProfile>>,
+    var originalDataset: List<Pair<DocumentReference, PsychologistProfile>>,
     var firebaseViewModel: FirebaseViewModel
 
     ): RecyclerView.Adapter<SearchResultAdapter.ItemViewHolder>() {
@@ -125,19 +125,17 @@ class SearchResultAdapter(
     }
 
     fun filter(query: List<String>) {
-        Log.e("eFilter1", "${dataset}")
-        Log.e("eFilter2", "${query}")
 
         dataset = originalDataset.filter { item ->
-            item.second.tags?.containsAll(query) == true
-        } as ArrayList<Pair<DocumentReference, PsychologistProfile>>
-        Log.e("eFilter3", "${originalDataset}")
-        //dataset.clear()
-       //dataset.addAll(filteredDataset)
+            val tags = item.second.tags ?: emptyList()
+            val containsAtLeastOne = tags.any { tag -> query.contains(tag) }
+            containsAtLeastOne
+        }
+
        notifyDataSetChanged()
-       // Log.e("filter", "Wird ausgeführt")
-       //Log.e("filterquery", query.toString())
-       //Log.e("filteredDataset", filteredDataset.toString())
+
     }
+
+
 
 }
