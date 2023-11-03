@@ -9,12 +9,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.menti.FirebaseViewModel
 import com.example.menti.R
-import com.example.menti.databinding.FragmentPersoenlicheangabenBinding
 import com.example.menti.databinding.FragmentZahlungsartenBinding
+import com.example.menti.databinding.FragmentZahlungsuebersichtBinding
 
-class ZahlungsartenFragment : Fragment() {
+class ZahlungsuebersichtFragment : Fragment() {
 
-    private lateinit var binding: FragmentZahlungsartenBinding
+    private lateinit var binding: FragmentZahlungsuebersichtBinding
     val firebaseViewModel: FirebaseViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -22,22 +22,16 @@ class ZahlungsartenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentZahlungsartenBinding.inflate(inflater, container, false)
+        binding = FragmentZahlungsuebersichtBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val checkbox = binding.rechnungCB
-        checkbox.isChecked
-
-        binding.backToPersoenlicheAngabenBTN.setOnClickListener {
+        binding.backToZahlungsartenBTN.setOnClickListener {
             findNavController().popBackStack()
         }
-
-        binding.toZahlungsuebersichtBTN.setOnClickListener {
-            findNavController().navigate(ZahlungsartenFragmentDirections.actionZahlungsartenFragmentToZahlungsuebersichtFragment())
-        }
     }
+
 }

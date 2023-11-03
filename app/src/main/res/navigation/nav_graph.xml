@@ -216,5 +216,17 @@
         <action
             android:id="@+id/action_zahlungsartenFragment_to_persoenlicheAngabenFragment"
             app:destination="@id/persoenlicheAngabenFragment" />
+        <action
+            android:id="@+id/action_zahlungsartenFragment_to_zahlungsuebersichtFragment"
+            app:destination="@id/zahlungsuebersichtFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/zahlungsuebersichtFragment"
+        android:name="com.example.menti.ui.ZahlungsuebersichtFragment"
+        android:label="fragment_zahlungsuebersicht"
+        tools:layout="@layout/fragment_zahlungsuebersicht" >
+        <action
+            android:id="@+id/action_zahlungsuebersichtFragment_to_zahlungsartenFragment"
+            app:destination="@id/zahlungsartenFragment" />
     </fragment>
 </navigation>
