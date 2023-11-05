@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/notificationCV"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginStart="16dp"
@@ -60,13 +61,13 @@
                 android:id="@+id/notificationDatumTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:text="05.11.23,"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="05.11.23"
                 android:textColor="@color/font"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/notificationUhrzeitTV"
-                app:layout_constraintEnd_toStartOf="@+id/notificationUhrzeitTV"
-                app:layout_constraintTop_toTopOf="@+id/notificationUhrzeitTV" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

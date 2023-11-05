@@ -50,7 +50,9 @@ class EventsFragment : Fragment() {
                 val loadedData: MutableList<Event> = mutableListOf()
 
                 for (document in querySnapshot) {
+                    val documentId = document.id
                     val event = document.toObject(Event::class.java)
+                    event.id = documentId
                     loadedData.add(event)
                 }
 

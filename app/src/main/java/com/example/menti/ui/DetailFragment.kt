@@ -97,11 +97,13 @@ class DetailFragment : Fragment() {
 
         // Chips die mit den Suchbegriffen im Filter übereinstimmen werden farblich hervorgehoben.
         var chipGroup = binding.detailTagsCG
-        if(firebaseViewModel.selectedFilter.value!!.isNotEmpty()) {
 
-            firebaseViewModel.selectedFilter.value!!.forEach {
+        try {
 
-                try {
+            if(firebaseViewModel.selectedFilter.value!!.isNotEmpty()) {
+
+
+                firebaseViewModel.selectedFilter.value!!.forEach {
 
                     val chip = chipGroup.getChildAt(tags.indexOf(it)) as Chip
                     chip.setChipStrokeColorResource(R.color.accent)
@@ -114,10 +116,11 @@ class DetailFragment : Fragment() {
                         )
                     )
 
-                } catch (e: Exception) {
-                    Log.e("Chips", e.message.toString())
                 }
-            }
+
+        }
+        }catch (e:Exception) {
+            Log.e("chips", e.message.toString())
         }
 
 

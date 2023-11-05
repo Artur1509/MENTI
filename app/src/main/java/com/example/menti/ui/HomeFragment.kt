@@ -78,7 +78,9 @@ class HomeFragment : Fragment() {
                 val loadedData: MutableList<Notification> = mutableListOf()
 
                 for (document in querySnapshot) {
+                    val documentID = document.id
                     val notification = document.toObject(Notification::class.java)
+                    notification.id = documentID
                     loadedData.add(notification)
                 }
 

@@ -268,6 +268,12 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
+    // Event Stornieren
+    fun deleteEvent(id: String) {
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Events").document(id).delete()
+    }
+
+    //Event Notification erstellen
     fun createEventNotification() {
 
         //Timestamp für Datum und Uhrzeit
@@ -288,6 +294,15 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         firestore.collection("Profile").document(_user.value!!.email!!).collection("Notifications").document().set(notification).addOnSuccessListener {
             Log.e("Firestore", " Notification Erfolgreich hinzugefügt")
         }
+    }
+
+    fun deleteNotification(id: String) {
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Notifications").document(id).delete()
+    }
+
+    // Filter zurücksetzen
+    fun resetFilter(){
+        _selectedFilter.postValue(listOf())
     }
 
 

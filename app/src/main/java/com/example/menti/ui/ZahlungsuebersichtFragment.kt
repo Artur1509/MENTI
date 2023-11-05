@@ -48,7 +48,10 @@ class ZahlungsuebersichtFragment : Fragment() {
             var termin = firebaseViewModel.terminAuswahl.value!!
             firebaseViewModel.createEvent(experte, leistung, termin)
             firebaseViewModel.createEventNotification()
+
+            findNavController().navigate(ZahlungsuebersichtFragmentDirections.actionZahlungsuebersichtFragmentToBuchungsbestaetigungFragment())
         }
+
 
     }
 

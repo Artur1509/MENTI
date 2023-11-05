@@ -7,7 +7,8 @@ data class Event(
     val datum: String,
     val uhrzeit: String,
     val erstellungsdatum: String,
-    val erstellungszeit: String
+    val erstellungszeit: String,
+    var id: String
 ) {
-    constructor() : this("", "", "", "", "", "", "")
+    constructor() : this("", "", "", "", "", "", "", "")
 }

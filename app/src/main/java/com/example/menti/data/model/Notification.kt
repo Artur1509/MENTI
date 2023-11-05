@@ -4,8 +4,9 @@ data class Notification(
     val message: String,
     val erstellungsdatum: String,
     val erstellungszeit: String,
-    val typ: String
+    val typ: String,
+    var id: String
 
 ) {
-    constructor() : this("", "", "", "")
+    constructor() : this("", "", "", "", "")
 }

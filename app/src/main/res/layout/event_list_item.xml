@@ -44,12 +44,14 @@
                 app:layout_constraintTop_toTopOf="@+id/textView10" />
 
             <TextView
-                android:id="@+id/textView28"
+                android:id="@+id/terminArtTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Experte:"
+                android:text="Gespräch"
+                android:textColor="@color/font"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,9 +61,68 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/textView2"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mit"
+                app:layout_constraintStart_toStartOf="@+id/terminArtTV"
+                app:layout_constraintTop_toBottomOf="@+id/terminArtTV" />
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Datum:"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <TextView
+                android:id="@+id/textView37"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Uhrzeit:"
+                app:layout_constraintStart_toStartOf="@+id/textView28"
+                app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+            <TextView
+                android:id="@+id/eventDatumTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="TextView"
+                android:textColor="@color/primary"
                 app:layout_constraintBottom_toBottomOf="@+id/textView28"
                 app:layout_constraintStart_toEndOf="@+id/textView28"
                 app:layout_constraintTop_toTopOf="@+id/textView28" />
+
+            <TextView
+                android:id="@+id/eventUhrzeitTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="TextView"
+                android:textColor="@color/primary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView37"
+                app:layout_constraintStart_toEndOf="@+id/textView37"
+                app:layout_constraintTop_toTopOf="@+id/textView37" />
+
+            <Button
+                android:id="@+id/stornierenBTN"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:backgroundTint="@color/accent"
+                android:text="Stornieren"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView37"
+                app:layout_constraintTop_toBottomOf="@+id/textView37" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

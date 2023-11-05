@@ -28,7 +28,14 @@ class EventAdapter(
         val item = dataset[position]
 
         holder.binding.expertNameTV.text = item.experte
+        holder.binding.terminArtTV.text = item.leistung
+        holder.binding.eventDatumTV.text = item.datum
+        holder.binding.eventUhrzeitTV.text = item.uhrzeit
 
+        holder.binding.stornierenBTN.setOnClickListener {
+            firebaseViewModel.deleteEvent(item.id)
+            notifyItemRemoved(position)
+        }
 
     }
 
