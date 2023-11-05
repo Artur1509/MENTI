@@ -93,6 +93,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout9">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/rechnungVornameET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Vorname" />
@@ -124,6 +125,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView17">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/rechnungNameET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Name" />
@@ -155,6 +157,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView18">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/rechnungPlzET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="PLZ" />
@@ -186,6 +189,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView19">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/rechnungOrtET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Ort" />
@@ -217,6 +221,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView21">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/rechnungAnschriftET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Strasse, Hausnummer" />

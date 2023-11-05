@@ -96,7 +96,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView27"
+                android:id="@+id/vornameNachnameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -106,24 +106,24 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
             <TextView
-                android:id="@+id/textView28"
+                android:id="@+id/adresseTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Straße, Hausnummer"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/textView27"
-                app:layout_constraintTop_toBottomOf="@+id/textView27" />
+                app:layout_constraintStart_toStartOf="@+id/vornameNachnameTV"
+                app:layout_constraintTop_toBottomOf="@+id/vornameNachnameTV" />
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/plzOrtTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="PLZ, Ort"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/textView28"
-                app:layout_constraintTop_toBottomOf="@+id/textView28" />
+                app:layout_constraintStart_toStartOf="@+id/adresseTV"
+                app:layout_constraintTop_toBottomOf="@+id/adresseTV" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -208,6 +208,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView8"
         android:layout_width="match_parent"
         android:layout_height="104dp"
         android:layout_marginStart="16dp"
@@ -235,7 +236,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView36"
+                android:id="@+id/artDesTerminsTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -245,15 +246,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView35" />
 
             <TextView
-                android:id="@+id/textView37"
+                android:id="@+id/therapiePreisTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Preis "
                 android:textColor="@color/primary"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/textView36"
-                app:layout_constraintTop_toBottomOf="@+id/textView36" />
+                app:layout_constraintStart_toStartOf="@+id/artDesTerminsTV"
+                app:layout_constraintTop_toBottomOf="@+id/artDesTerminsTV" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

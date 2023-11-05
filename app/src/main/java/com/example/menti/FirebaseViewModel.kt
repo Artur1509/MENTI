@@ -9,9 +9,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.menti.data.Categories
 import com.example.menti.data.model.Category
-import com.example.menti.ui.ProfileFragment
-import com.example.menti.ui.ProfileFragmentDirections
-import com.example.menti.util.SearchResultAdapter
+import com.example.menti.data.model.Leistung
+import com.example.menti.data.model.PsychologistProfile
+import com.example.menti.data.model.Uhrzeit
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentId
@@ -20,6 +21,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
+import com.google.type.Date
+import java.text.SimpleDateFormat
+
 import kotlin.coroutines.coroutineContext
 
 
@@ -59,6 +63,34 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
             // Profil Dokument Referenz aktuallisieren == CurrentUser
             profileRef = firestore.collection("Profile").document(auth.currentUser!!.email!!)
         }
+    }
+
+    //Ausgewählter Termin
+    private val _terminAuswahl: MutableLiveData<Uhrzeit> = MutableLiveData()
+    val terminAuswahl: LiveData<Uhrzeit>
+        get() = _terminAuswahl
+
+    //Wert eines Ausgewählten Termins in Livedata speichern
+    fun saveTermin(termin: Uhrzeit) {
+        _terminAuswahl.postValue(termin)
+    }
+    //Ausgewählte Leistung
+    private val _leistungAuswahl: MutableLiveData<Leistung> = MutableLiveData()
+    val leistungAuswahl: LiveData<Leistung>
+        get() =_leistungAuswahl
+
+    //Wert einer Ausgewählten Leistung in Livedata speichern
+    fun saveLeistung(leistung: Leistung) {
+        _leistungAuswahl.postValue(leistung)
+    }
+    //Ausgewählter Experte
+    private val _experteAuswahl: MutableLiveData<PsychologistProfile> = MutableLiveData()
+    val experteAuswahl: LiveData<PsychologistProfile>
+        get() = _experteAuswahl
+
+    //Den Ausgewählten Experten als Livedata speichern
+    fun saveExperte(experte: PsychologistProfile) {
+        _experteAuswahl.postValue(experte)
     }
 
     // -------------------------------------- E-MAIL & PASSWORT ------------------------------------------------- //
@@ -133,6 +165,29 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
 
     }
 
+    //Rechnungsadresse bearbeiten
+    fun editRechnungsAdresse(vorname: String, name: String, plz: String, ort: String, anschrift: String, fragment: Fragment) {
+
+        val userProfileUpdate = hashMapOf(
+            "vorname" to vorname,
+            "name" to name,
+            "plz" to plz,
+            "ort" to ort,
+            "anschrift" to anschrift,
+        )
+
+        // Überschreibe Daten
+        firestore.collection("Profile").document(_user.value!!.email!!)
+            .set(userProfileUpdate, SetOptions.merge())
+            .addOnSuccessListener {
+                Toast.makeText(fragment.requireContext(), "Aktualisierung erfolgreich", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(fragment.requireContext(), "Fehler: " + e.message, Toast.LENGTH_SHORT).show()
+            }
+
+    }
+
     // Favoriten hinzufügen
     fun addFavorites(reference: DocumentReference) {
 
@@ -182,6 +237,35 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
 
         _selectedFilter.value = checkedCategories
         Log.e("Filter", _selectedFilter.value!!.toString())
+    }
+
+    // Event erstellen
+    fun createEvent(experte: PsychologistProfile, leistung: Leistung, termin: Uhrzeit) {
+
+        //Timestamp für Datum und Uhrzeit
+        val timeStamp = Timestamp(java.util.Date())
+        val date: java.util.Date = timeStamp.toDate()
+        val dateFormat = SimpleDateFormat("dd.MM.yy") // TT.MM.JJ
+        val timeFormat = SimpleDateFormat("HH:mm")   // HH:mm
+        val formattedDate = dateFormat.format(date)
+        val formattedTime = timeFormat.format(date)
+
+
+        var event = hashMapOf(
+            "experte" to "${experte.titel} ${experte.vorname} ${experte.name}",
+            "leistung" to "${leistung.beschreibung}",
+            "preis" to "${leistung.preis}",
+            "datum" to "${termin.datum}",
+            "uhrzeit" to "${termin.zeit}",
+            "erstellungszeit" to "${formattedTime}",
+            "erstellungsdatum" to "${formattedDate}"
+
+
+        )
+
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Events").document().set(event).addOnSuccessListener {
+            Log.e("Firestore", " Event Erfolgreich hinzugefügt")
+        }
     }
 
 

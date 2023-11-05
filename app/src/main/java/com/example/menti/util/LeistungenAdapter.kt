@@ -43,7 +43,9 @@ class LeistungenAdapter(
             notifyDataSetChanged()
 
         }
-        Log.e("checkbox", item.isChecked.toString())
+
+        leistungsAuswahl(dataset)
+
 
 
 
@@ -51,6 +53,14 @@ class LeistungenAdapter(
 
     override fun getItemCount(): Int {
         return dataset.size
+    }
+
+    fun leistungsAuswahl(dataset: List<Leistung>) {
+        for(i in dataset) {
+            if(i.isChecked) {
+                viewModel.saveLeistung(i)
+            }
+        }
     }
 
 }

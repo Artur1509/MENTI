@@ -128,7 +128,7 @@ class SearchResultAdapter(
 
         }
 
-        Log.e("filterOriginalDataset", dataset.toString())
+        expertenAuswahl(profil)
 
 
     }
@@ -162,6 +162,10 @@ class SearchResultAdapter(
 
        notifyDataSetChanged()
 
+    }
+
+    fun expertenAuswahl(experte: PsychologistProfile) {
+        firebaseViewModel.saveExperte(experte)
     }
 
 

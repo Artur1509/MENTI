@@ -8,10 +8,10 @@ class Termine {
     fun loadTermine(): List<TerminDaten> {
 
         return mutableListOf(
-            TerminDaten("Montag, 27.11.2023", listOf(Uhrzeit("09:00", false), Uhrzeit("11:00", false), Uhrzeit("14:00", false))),
-            TerminDaten("Mittwoch, 29.11.2023", listOf(Uhrzeit("09:00", false))),
-            TerminDaten("Donnerstag, 07.12.2023", listOf(Uhrzeit("09:00", false))),
-            TerminDaten("Freitag, 15.12.2023", listOf(Uhrzeit("09:00", false))),
+            TerminDaten("Montag, 27.11.2023", listOf(Uhrzeit("09:00", false, "Montag, 27.11.2023"), Uhrzeit("11:00", false, "Montag, 27.11.2023"), Uhrzeit("14:00", false, "Montag, 27.11.2023"))),
+            TerminDaten("Mittwoch, 29.11.2023", listOf(Uhrzeit("09:00", false, "Mittwoch, 29.11.2023"))),
+            TerminDaten("Donnerstag, 07.12.2023", listOf(Uhrzeit("09:00", false, "Donnerstag, 07.12.2023" ))),
+            TerminDaten("Freitag, 15.12.2023", listOf(Uhrzeit("09:00", false, "Freitag, 15.12.2023"))),
         )
     }
 

@@ -1,6 +1,7 @@
 package com.example.menti.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -70,6 +71,8 @@ class TermineFragment : Fragment() {
 
         binding.toZahlungsoptionenBTN.setOnClickListener {
             findNavController().navigate(TermineFragmentDirections.actionTermineFragmentToPersoenlicheAngabenFragment())
+            Log.e("firestore", firebaseViewModel.experteAuswahl.value!!.toString())
+
         }
     }
 

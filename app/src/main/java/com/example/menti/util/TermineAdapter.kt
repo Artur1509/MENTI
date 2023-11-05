@@ -119,7 +119,9 @@ class TermineAdapter(
             }
         }
 
-        Log.e("termine", dataset.toString())
+        terminAuswaehlen(dataset[position])
+
+
 
 
 
@@ -128,6 +130,15 @@ class TermineAdapter(
 
     override fun getItemCount(): Int {
         return dataset.size
+    }
+
+    fun terminAuswaehlen(terminDaten: TerminDaten) {
+
+        for(i in terminDaten.uhrzeit) {
+            if(i.isChecked) {
+                viewModel.saveTermin(i)
+            }
+        }
     }
 
     fun ChipGroup.addChip(label: String ) {
