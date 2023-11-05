@@ -47,6 +47,7 @@ class ZahlungsuebersichtFragment : Fragment() {
             val leistung = firebaseViewModel.leistungAuswahl.value!!
             var termin = firebaseViewModel.terminAuswahl.value!!
             firebaseViewModel.createEvent(experte, leistung, termin)
+            firebaseViewModel.createEventNotification()
         }
 
     }

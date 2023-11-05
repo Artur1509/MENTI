@@ -7,8 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.menti.FirebaseViewModel
+import com.example.menti.data.model.Event
+import com.example.menti.data.model.Notification
 import com.example.menti.databinding.FragmentHomeBinding
+import com.example.menti.util.EventAdapter
+import com.example.menti.util.NotificationsAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -17,6 +22,9 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     val firebaseViewModel: FirebaseViewModel by activityViewModels()
+    private lateinit var notificationsRV: RecyclerView
+    private lateinit var rvAdapter: NotificationsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,6 +35,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        notificationsRV = binding.notificationsRV
 
         //Navbar Sichtbarkeit
         val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
@@ -56,6 +66,26 @@ class HomeFragment : Fragment() {
             }
         }
 
+        loadDataFromFirestoreAndInitializeAdapter()
+
+    }
+
+    fun loadDataFromFirestoreAndInitializeAdapter() {
+        firebaseViewModel.firestore.collection("Profile").document(firebaseViewModel.user.value!!.email!!)
+            .collection("Notifications")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val loadedData: MutableList<Notification> = mutableListOf()
+
+                for (document in querySnapshot) {
+                    val notification = document.toObject(Notification::class.java)
+                    loadedData.add(notification)
+                }
+
+                // Adapter wird erstellt und mit den neuen Daten initialisiert
+                rvAdapter = NotificationsAdapter(loadedData, firebaseViewModel)
+                notificationsRV.adapter = rvAdapter
+            }
     }
 
 }

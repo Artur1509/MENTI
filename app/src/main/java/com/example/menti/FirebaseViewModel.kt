@@ -268,5 +268,27 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
+    fun createEventNotification() {
+
+        //Timestamp für Datum und Uhrzeit
+        val timeStamp = Timestamp(java.util.Date())
+        val date: java.util.Date = timeStamp.toDate()
+        val dateFormat = SimpleDateFormat("dd.MM.yy") // TT.MM.JJ
+        val timeFormat = SimpleDateFormat("HH:mm")   // HH:mm
+        val formattedDate = dateFormat.format(date)
+        val formattedTime = timeFormat.format(date)
+
+        var notification = hashMapOf(
+            "erstellungszeit" to "${formattedTime}",
+            "erstellungsdatum" to "${formattedDate}",
+            "message" to "Du hast einen neuen Termin!",
+            "typ" to "termin"
+        )
+
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Notifications").document().set(notification).addOnSuccessListener {
+            Log.e("Firestore", " Notification Erfolgreich hinzugefügt")
+        }
+    }
+
 
 }
