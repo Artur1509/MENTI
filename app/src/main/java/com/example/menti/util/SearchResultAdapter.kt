@@ -91,24 +91,29 @@ class SearchResultAdapter(
 
         // Chips die mit den Suchbegriffen im Filter übereinstimmen werden farblich hervorgehoben.
         var chipGroup = holder.binding.tagsCG
-        if(firebaseViewModel.selectedFilter.value!!.isNotEmpty()) {
 
-            firebaseViewModel.selectedFilter.value!!.forEach {
+        try {
+            if(firebaseViewModel.selectedFilter.value!!.isNotEmpty()) {
 
-                try {
+                firebaseViewModel.selectedFilter.value!!.forEach {
 
-                    val chip = chipGroup.getChildAt(profil.tags!!.indexOf(it)) as Chip
-                    chip.setChipStrokeColorResource(R.color.accent)
-                    chip.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.accent)))
+                    try {
 
-                }catch (e: Exception) {
-                    Log.e("Chips", e.message.toString())
+                        val chip = chipGroup.getChildAt(profil.tags!!.indexOf(it)) as Chip
+                        chip.setChipStrokeColorResource(R.color.accent)
+                        chip.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.accent)))
+
+                    }catch (e: Exception) {
+                        Log.e("Chips", e.message.toString())
+                    }
                 }
+
             }
-
-
+        }catch(e: Exception) {
 
         }
+
+
 
 
 
