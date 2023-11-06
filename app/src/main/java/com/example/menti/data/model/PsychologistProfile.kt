@@ -1,5 +1,7 @@
 package com.example.menti.data.model
 
+import com.google.firebase.firestore.GeoPoint
+
 data class PsychologistProfile(
 
     var titel: String ?= null,
@@ -10,5 +12,6 @@ data class PsychologistProfile(
     var bild: String?= null,
     var tags: ArrayList<String>?= null,
     var beschreibung: String?= null,
+    var standort: GeoPoint?= null
 
 )

@@ -31,6 +31,7 @@ class BuchungsbestaetigungFragment : Fragment() {
 
         binding.toHomeBTN.setOnClickListener {
             findNavController().navigate(BuchungsbestaetigungFragmentDirections.actionBuchungsbestaetigungFragmentToHomeFragment())
+
         }
     }
 

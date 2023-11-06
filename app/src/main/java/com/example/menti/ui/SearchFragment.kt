@@ -1,5 +1,10 @@
 package com.example.menti.ui
 
+import android.content.ContentValues.TAG
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,11 +12,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.caverock.androidsvg.SVG
 import com.example.menti.FirebaseViewModel
+import com.example.menti.R
 import com.example.menti.data.model.PsychologistProfile
 import com.example.menti.databinding.FragmentSearchBinding
 import com.example.menti.util.SearchResultAdapter
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.DocumentReference
 
@@ -21,7 +35,11 @@ class SearchFragment : Fragment() {
     private lateinit var searchRV: RecyclerView
     private lateinit var rvAdapter: SearchResultAdapter
     private lateinit var binding: FragmentSearchBinding
+    private lateinit var mapView: MapView
     val firebaseViewModel: FirebaseViewModel by activityViewModels()
+
+    private var googleMap: GoogleMap? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +52,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         // Navbar sichtbarkeit
         val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.VISIBLE
@@ -42,9 +61,81 @@ class SearchFragment : Fragment() {
         searchRV = binding.searchResultsRV
         searchRV.setHasFixedSize(true)
 
+        binding.toFilterBTN.setOnClickListener {
+            findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToFilterFragment())
+        }
+
         // Daten werden geladen und gefiltert
         loadDataFromFirestoreAndInitializeAdapter()
 
+
+        // Google Maps
+        mapView = binding.mapView
+        mapView.onCreate(savedInstanceState)
+
+
+        mapView.getMapAsync { map ->
+            googleMap = map
+            // Hier kannst du die Google Maps-Operationen durchführen
+
+            try {
+                // Stil aus der JSON-Datei laden
+                val success = googleMap!!.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style)
+                )
+
+                if (!success) {
+                    Log.e(TAG, "Style parsing failed.")
+                }
+            } catch (e: Resources.NotFoundException) {
+                Log.e(TAG, "Can't find style. Error: ", e)
+            }
+
+            // Marker für Suchergebnisse auf der Map erstellen
+
+           for(i in rvAdapter.originalDataset) {
+               val latLng = LatLng(i.second.standort!!.latitude, i.second.standort!!.longitude)
+
+               val originalBitmap = BitmapFactory.decodeResource(resources, R.drawable.locations)
+               val width = 72 // Neue Breite in Pixel
+               val height = 72 // Neue Höhe in Pixel
+               val resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, width, height, false)
+
+               val markerOptions = MarkerOptions()
+                   .position(latLng)
+                   .title("${i.second.titel} ${i.second.vorname} ${i.second.name}")
+                   .snippet("${i.second.beruf}") // Optional: Eine Beschreibung für den Marker
+
+               markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap))
+
+               val marker = googleMap!!.addMarker(markerOptions)
+           }
+
+
+        }
+
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
     }
 
     // Funktion um Daten aus dem Firestore zu laden und zu filtern, wenn ein filter aktiviert ist.

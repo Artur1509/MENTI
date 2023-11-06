@@ -33,6 +33,7 @@ class EventAdapter(
         holder.binding.eventUhrzeitTV.text = item.uhrzeit
 
         holder.binding.stornierenBTN.setOnClickListener {
+
             firebaseViewModel.deleteEvent(item.id)
             if (position != RecyclerView.NO_POSITION) {
                 dataset.removeAt(position)
