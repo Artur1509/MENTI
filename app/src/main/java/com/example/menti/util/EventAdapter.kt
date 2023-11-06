@@ -9,7 +9,7 @@ import com.example.menti.databinding.EventListItemBinding
 
 
 class EventAdapter(
-    var dataset: List<Event>,
+    var dataset: MutableList<Event>,
     var firebaseViewModel: FirebaseViewModel,
 
 
@@ -34,7 +34,10 @@ class EventAdapter(
 
         holder.binding.stornierenBTN.setOnClickListener {
             firebaseViewModel.deleteEvent(item.id)
-            notifyItemRemoved(position)
+            if (position != RecyclerView.NO_POSITION) {
+                dataset.removeAt(position)
+                notifyItemRemoved(position)
+            }
         }
 
     }
