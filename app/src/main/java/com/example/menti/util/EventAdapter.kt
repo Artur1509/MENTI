@@ -1,5 +1,6 @@
 package com.example.menti.util
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,13 +14,14 @@ class EventAdapter(
     var firebaseViewModel: FirebaseViewModel,
 
 
-    ): RecyclerView.Adapter<EventAdapter.ItemViewHolder>() {
+    ) : RecyclerView.Adapter<EventAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(val binding: EventListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val binding = EventListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            EventListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
     }
 
@@ -34,10 +36,17 @@ class EventAdapter(
 
         holder.binding.stornierenBTN.setOnClickListener {
 
-            firebaseViewModel.deleteEvent(item.id)
-            if (position != RecyclerView.NO_POSITION) {
-                dataset.removeAt(position)
-                notifyItemRemoved(position)
+            try {
+
+                firebaseViewModel.deleteEvent(item.id)
+                if (position != RecyclerView.NO_POSITION) {
+                    dataset.removeAt(position)
+                    notifyItemRemoved(position)
+                }
+            } catch (e: Exception) {
+
+                Log.e("EventAdapter", e.message.toString())
+
             }
         }
 
@@ -46,7 +55,6 @@ class EventAdapter(
     override fun getItemCount(): Int {
         return dataset.size
     }
-
 
 
 }

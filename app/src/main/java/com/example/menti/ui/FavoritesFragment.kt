@@ -12,6 +12,7 @@ import com.example.menti.FirebaseViewModel
 import com.example.menti.data.model.PsychologistProfile
 import com.example.menti.databinding.FragmentFavoritesBinding
 import com.example.menti.util.FavoritesAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -39,6 +40,10 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Navbar sichtbarkeit
+        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        navBar.visibility = View.VISIBLE
+
         // Recyclerview
         favoritesRV = binding.favoritesRV
         favoritesRV.setHasFixedSize(true)
@@ -46,6 +51,7 @@ class FavoritesFragment : Fragment() {
         rvAdapter = FavoritesAdapter(dataset, firebaseViewModel)
         favoritesRV.adapter = rvAdapter
         eventChangeListener()
+
 
     }
 
@@ -62,11 +68,17 @@ class FavoritesFragment : Fragment() {
                         if (dc.type == DocumentChange.Type.ADDED) {
                             var id = dc.document.id
                             var favorit = dc.document.data["reference"] as DocumentReference
-                            var favoritRef = favorit.get().addOnSuccessListener {snapshot ->
+                            var favoritRef = favorit.get().addOnSuccessListener { snapshot ->
                                 var profil = snapshot.toObject(PsychologistProfile::class.java)!!
                                 dataset.add(Pair(id, profil))
                                 //Log.e("RV", "${profil.tags}")
                                 rvAdapter.updateData(dataset)
+
+                                if (rvAdapter.dataset.isNotEmpty()) {
+                                    binding.favoritesInfoTV.visibility = View.GONE
+                                } else {
+                                    binding.favoritesInfoTV.visibility = View.VISIBLE
+                                }
 
                             }
 

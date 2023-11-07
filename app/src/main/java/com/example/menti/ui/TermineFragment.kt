@@ -18,6 +18,7 @@ import com.example.menti.databinding.FragmentLeistungenBinding
 import com.example.menti.databinding.FragmentTermineBinding
 import com.example.menti.util.FilterCategoriesAdapter
 import com.example.menti.util.TermineAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class TermineFragment : Fragment() {
 
@@ -41,6 +42,8 @@ class TermineFragment : Fragment() {
             beruf = it.getString("beruf")
             bewertung = it.getFloat("bewertung")
         }
+        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        navBar.menu.getItem(4).isChecked = true
     }
 
     override fun onCreateView(
@@ -55,6 +58,7 @@ class TermineFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         val termineRV = binding.termineRV
         val data = Termine().loadTermine()
         termineRV.adapter = TermineAdapter(data, firebaseViewModel, requireContext())
@@ -64,6 +68,7 @@ class TermineFragment : Fragment() {
         binding.termineProfileNameTV.text = "${titel!!} ${vorname!!} ${name!!}"
         binding.termineProfileBerufTV.text = beruf
         binding.termineRB.rating = bewertung!!
+
 
         binding.backToLeistungenBTN.setOnClickListener {
             findNavController().popBackStack()

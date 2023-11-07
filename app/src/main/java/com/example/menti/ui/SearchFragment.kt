@@ -59,6 +59,8 @@ class SearchFragment : Fragment() {
         val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.VISIBLE
 
+        navBar.menu.getItem(0).isChecked = true
+
         //Recyclerview
         searchRV = binding.searchResultsRV
         searchRV.setHasFixedSize(true)
@@ -95,35 +97,51 @@ class SearchFragment : Fragment() {
 
             // Marker für Suchergebnisse auf der Map erstellen
 
-           for(i in rvAdapter.dataset) {
-               val latLng = LatLng(i.second.standort!!.latitude, i.second.standort!!.longitude)
+            try {
 
-               val originalBitmap = BitmapFactory.decodeResource(resources, R.drawable.locations)
-               val width = 72
-               val height = 72
-               val resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, width, height, false)
 
-               val markerOptions = MarkerOptions()
-                   .position(latLng)
-                   .title("${i.second.titel} ${i.second.vorname} ${i.second.name}")
-                   .snippet("${i.second.beruf}")
+                for (i in rvAdapter.dataset) {
+                    val latLng = LatLng(i.second.standort!!.latitude, i.second.standort!!.longitude)
 
-               markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap))
+                    val originalBitmap =
+                        BitmapFactory.decodeResource(resources, R.drawable.locations)
+                    val width = 72
+                    val height = 72
+                    val resizedBitmap =
+                        Bitmap.createScaledBitmap(originalBitmap, width, height, false)
 
-               val marker = googleMap!!.addMarker(markerOptions)
+                    val markerOptions = MarkerOptions()
+                        .position(latLng)
+                        .title("${i.second.titel} ${i.second.vorname} ${i.second.name}")
+                        .snippet("${i.second.beruf}")
 
-               val builder = LatLngBounds.builder()
-               builder.include(marker!!.position)
-               val bounds = builder.build()
+                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap))
 
-               val padding = 5 // Hier kannst du einen Padding-Wert in Pixeln festlegen, um den Marker zu umgeben
-               val minZoom = 10.0f // Mindestzoomstufe
-               val maxZoom = 15.0f // Maximale Zoomstufe
+                    val marker = googleMap!!.addMarker(markerOptions)
 
-               val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding)
-               googleMap!!.moveCamera(cameraUpdate)
-               googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(Math.min(maxZoom, Math.max(minZoom, googleMap!!.cameraPosition.zoom))))
-           }
+                    val builder = LatLngBounds.builder()
+                    builder.include(marker!!.position)
+                    val bounds = builder.build()
+
+                    val padding = 5
+                    val minZoom = 10.0f
+                    val maxZoom = 15.0f
+
+                    val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding)
+                    googleMap!!.moveCamera(cameraUpdate)
+                    googleMap!!.animateCamera(
+                        CameraUpdateFactory.zoomTo(
+                            Math.min(
+                                maxZoom,
+                                Math.max(minZoom, googleMap!!.cameraPosition.zoom)
+                            )
+                        )
+                    )
+                }
+
+            } catch (e: Exception) {
+                Log.e("Searchfragment", e.message.toString())
+            }
 
 
         }
@@ -156,7 +174,8 @@ class SearchFragment : Fragment() {
         firebaseViewModel.firestore.collection("PsychologenProfile")
             .get()
             .addOnSuccessListener { querySnapshot ->
-                val loadedData: MutableList<Pair<DocumentReference, PsychologistProfile>> = mutableListOf()
+                val loadedData: MutableList<Pair<DocumentReference, PsychologistProfile>> =
+                    mutableListOf()
 
                 for (document in querySnapshot) {
                     val pair = Pair<DocumentReference, PsychologistProfile>(

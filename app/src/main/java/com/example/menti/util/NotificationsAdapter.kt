@@ -9,6 +9,7 @@ import com.example.menti.FirebaseViewModel
 import com.example.menti.data.model.Notification
 import com.example.menti.databinding.NotificationListItemBinding
 import com.example.menti.ui.HomeFragmentDirections
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NotificationsAdapter(
     var dataset: List<Notification>,
