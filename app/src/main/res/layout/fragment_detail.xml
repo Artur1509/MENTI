@@ -158,7 +158,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/sendMessageBTN"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@color/primary"

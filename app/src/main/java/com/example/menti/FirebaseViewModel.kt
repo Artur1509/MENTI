@@ -305,5 +305,37 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         _selectedFilter.postValue(listOf())
     }
 
+    fun createChat(
+        absenderName: String,
+        absenderId: String,
+        empfaengerName: String,
+        empfaengerId: String,
+        chatId: String
+        ) {
+
+        //Timestamp für Datum und Uhrzeit
+        val timeStamp = Timestamp(java.util.Date())
+        val date: java.util.Date = timeStamp.toDate()
+        val dateFormat = SimpleDateFormat("dd.MM.yy") // TT.MM.JJ
+        val timeFormat = SimpleDateFormat("HH:mm")   // HH:mm
+        val formattedDate = dateFormat.format(date)
+        val formattedTime = timeFormat.format(date)
+
+        val neuerChat = hashMapOf(
+            "absenderName" to absenderName,
+            "absenderId" to absenderId,
+            "empfaengerName" to empfaengerName,
+            "empfaengerId" to empfaengerId,
+            "erstellungsDatum" to formattedDate,
+            "erstellungsZeit" to formattedTime,
+            "chatId" to chatId
+        )
+
+        firestore.collection("Chats").document("${chatId}").set(neuerChat).addOnSuccessListener {
+            Log.e("Firestore", " Chat Erfolgreich erstellt")
+        }
+
+    }
+
 
 }

@@ -61,7 +61,8 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Bottom Navbar unsichtbar
-        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        val navBar =
+            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.GONE
 
         // Zurück zum vorherigen Fragment
@@ -85,14 +86,16 @@ class DetailFragment : Fragment() {
 
 
         binding.terminBTN.setOnClickListener {
-            findNavController().navigate(DetailFragmentDirections.actionDetailFragmentToLeistungenFragment(
-                profilePicture = profilePicture!!,
-                vorname = vorname!!,
-                name = name!!,
-                beruf = beruf!!,
-                titel = titel!!,
-                bewertung = bewertung!!
-            ))
+            findNavController().navigate(
+                DetailFragmentDirections.actionDetailFragmentToLeistungenFragment(
+                    profilePicture = profilePicture!!,
+                    vorname = vorname!!,
+                    name = name!!,
+                    beruf = beruf!!,
+                    titel = titel!!,
+                    bewertung = bewertung!!
+                )
+            )
         }
 
         // Chips die mit den Suchbegriffen im Filter übereinstimmen werden farblich hervorgehoben.
@@ -100,7 +103,7 @@ class DetailFragment : Fragment() {
 
         try {
 
-            if(firebaseViewModel.selectedFilter.value!!.isNotEmpty()) {
+            if (firebaseViewModel.selectedFilter.value!!.isNotEmpty()) {
 
 
                 firebaseViewModel.selectedFilter.value!!.forEach {
@@ -118,24 +121,46 @@ class DetailFragment : Fragment() {
 
                 }
 
-        }
-        }catch (e:Exception) {
+            }
+        } catch (e: Exception) {
             Log.e("chips", e.message.toString())
         }
 
+        binding.sendMessageBTN.setOnClickListener {
+
+            firebaseViewModel.firestore.collection("Profile")
+                .document(firebaseViewModel.user.value!!.email!!)
+                .get()
+                .addOnSuccessListener {
+
+                    val absenderVorname = it.data!!["vorname"]
+                    val absenderName = it.data!!["name"]
+                    val absenderId = it.id
+
+                    firebaseViewModel.createChat(
+                        absenderName = "${absenderVorname} ${absenderName}",
+                        absenderId = "${absenderId}",
+                        empfaengerName = "${titel} ${vorname} ${name}",
+                        empfaengerId = "${vorname}${name}id",
+                        chatId = "ChatVon${absenderVorname}und${vorname}"
+                    )
+                }
+
+        }
 
 
     }
 
     // Style der Chips im Detailfragment
-    fun ChipGroup.addChip(label: String ) {
+    fun ChipGroup.addChip(label: String) {
         Chip(context).apply {
 
             id = View.generateViewId()
             text = label
             isClickable = false
             isFocusable = false
-            chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.secondary))
+            chipBackgroundColor =
+                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.secondary))
             setEnsureMinTouchTargetSize(false)
             addView(this)
         }
