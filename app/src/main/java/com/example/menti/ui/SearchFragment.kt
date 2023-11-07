@@ -20,10 +20,12 @@ import com.example.menti.R
 import com.example.menti.data.model.PsychologistProfile
 import com.example.menti.databinding.FragmentSearchBinding
 import com.example.menti.util.SearchResultAdapter
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -93,29 +95,40 @@ class SearchFragment : Fragment() {
 
             // Marker für Suchergebnisse auf der Map erstellen
 
-           for(i in rvAdapter.originalDataset) {
+           for(i in rvAdapter.dataset) {
                val latLng = LatLng(i.second.standort!!.latitude, i.second.standort!!.longitude)
 
                val originalBitmap = BitmapFactory.decodeResource(resources, R.drawable.locations)
-               val width = 72 // Neue Breite in Pixel
-               val height = 72 // Neue Höhe in Pixel
+               val width = 72
+               val height = 72
                val resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, width, height, false)
 
                val markerOptions = MarkerOptions()
                    .position(latLng)
                    .title("${i.second.titel} ${i.second.vorname} ${i.second.name}")
-                   .snippet("${i.second.beruf}") // Optional: Eine Beschreibung für den Marker
+                   .snippet("${i.second.beruf}")
 
                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap))
 
                val marker = googleMap!!.addMarker(markerOptions)
+
+               val builder = LatLngBounds.builder()
+               builder.include(marker!!.position)
+               val bounds = builder.build()
+
+               val padding = 5 // Hier kannst du einen Padding-Wert in Pixeln festlegen, um den Marker zu umgeben
+               val minZoom = 10.0f // Mindestzoomstufe
+               val maxZoom = 15.0f // Maximale Zoomstufe
+
+               val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding)
+               googleMap!!.moveCamera(cameraUpdate)
+               googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(Math.min(maxZoom, Math.max(minZoom, googleMap!!.cameraPosition.zoom))))
            }
 
 
         }
 
     }
-
 
     override fun onResume() {
         super.onResume()

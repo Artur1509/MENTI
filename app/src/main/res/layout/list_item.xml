@@ -9,11 +9,10 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
-        app:cardMaxElevation="10dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,7 +28,7 @@
                 android:layout_width="268dp"
                 android:layout_height="120dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/constraintLayout" >
+                app:layout_constraintStart_toEndOf="@+id/constraintLayout">
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/tagsCG"

@@ -27,9 +27,10 @@ class SearchResultAdapter(
     var originalDataset: List<Pair<DocumentReference, PsychologistProfile>>,
     var firebaseViewModel: FirebaseViewModel,
     var context : Context,
+    var dataset: List<Pair<DocumentReference, PsychologistProfile>> = originalDataset
 
     ): RecyclerView.Adapter<SearchResultAdapter.ItemViewHolder>() {
-    private var dataset = originalDataset
+
     class ItemViewHolder(val binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
