@@ -74,12 +74,6 @@ class FavoritesFragment : Fragment() {
                                 //Log.e("RV", "${profil.tags}")
                                 rvAdapter.updateData(dataset)
 
-                                if (rvAdapter.dataset.isNotEmpty()) {
-                                    binding.favoritesInfoTV.visibility = View.GONE
-                                } else {
-                                    binding.favoritesInfoTV.visibility = View.VISIBLE
-                                }
-
                             }
 
                         }

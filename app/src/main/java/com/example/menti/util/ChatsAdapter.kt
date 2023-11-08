@@ -3,11 +3,13 @@ package com.example.menti.util
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.menti.FirebaseViewModel
 import com.example.menti.data.model.Chat
 import com.example.menti.databinding.ChatListItemBinding
-import com.example.menti.databinding.EventListItemBinding
+import com.example.menti.ui.MessengerFragmentDirections
+
 
 class ChatsAdapter(
     var dataset: MutableList<Chat>,
@@ -30,9 +32,14 @@ class ChatsAdapter(
         val item = dataset[position]
 
         holder.binding.chatPartnerNameTV.text = "${item.empfaengerName}"
+        holder.binding.chatDatumTV.text = "${item.erstellungsDatum}"
+        holder.binding.chatUhrzeitTV.text = "${item.erstellungsZeit}"
 
         holder.itemView.setOnClickListener {
             Log.e("Chat", item.chatId.toString())
+
+            val navController = holder.itemView.findNavController()
+            navController.navigate(MessengerFragmentDirections.actionMessengerFragmentToChatDetailFragment())
         }
     }
 

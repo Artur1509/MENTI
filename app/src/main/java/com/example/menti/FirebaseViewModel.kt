@@ -331,9 +331,10 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
             "chatId" to chatId
         )
 
-        firestore.collection("Chats").document("${chatId}").set(neuerChat).addOnSuccessListener {
+        firestore.collection("Chats").document(chatId).set(neuerChat).addOnSuccessListener {
             Log.e("Firestore", " Chat Erfolgreich erstellt")
         }
+
 
     }
 

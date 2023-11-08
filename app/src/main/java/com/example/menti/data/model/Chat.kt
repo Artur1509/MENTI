@@ -5,7 +5,9 @@ data class Chat(
     val absenderId: String,
     val empfaengerName: String,
     val empfaengerId: String,
-    var chatId: String
+    var chatId: String,
+    val erstellungsDatum: String,
+    val erstellungsZeit: String
 ) {
-    constructor() : this("", "", "", "", "")
+    constructor() : this("", "", "", "", "", "", "")
 }
