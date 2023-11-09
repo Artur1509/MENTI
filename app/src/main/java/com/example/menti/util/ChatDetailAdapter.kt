@@ -37,6 +37,7 @@ class ChatDetailAdapter(
         holder.binding.messageTimeTV.text = item.erstellungsZeit
         holder.binding.messageDateTV.text = item.erstellungsDatum
 
+        Log.e("Messenger3", dataset.toString())
 
     }
 
@@ -44,7 +45,7 @@ class ChatDetailAdapter(
         return dataset.size
     }
 
-    fun updataData() {
+    fun updataData(dataset: MutableList<Message>) {
         notifyDataSetChanged()
     }
 

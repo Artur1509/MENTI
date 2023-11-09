@@ -19,6 +19,7 @@ import com.example.menti.util.ChatsAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.QuerySnapshot
 
@@ -33,6 +34,7 @@ class ChatDetailFragment : Fragment() {
     val firebaseViewModel: FirebaseViewModel by activityViewModels()
     private lateinit var chatDetailRv: RecyclerView
     private lateinit var rvAdapter: ChatDetailAdapter
+    private lateinit var dataset: MutableList<Message>
 
     private var loadedData: MutableList<Message> = mutableListOf()
     private var listenerRegistration: ListenerRegistration? = null
@@ -47,8 +49,11 @@ class ChatDetailFragment : Fragment() {
         }
 
         // Hier wird der Adapter erstellt
-        val loadedData: MutableList<Message> = mutableListOf()
-        rvAdapter = ChatDetailAdapter(loadedData, firebaseViewModel)
+        //val loadedData: MutableList<Message> = mutableListOf()
+        //rvAdapter = ChatDetailAdapter(loadedData, firebaseViewModel)
+
+        dataset = loadedData
+        rvAdapter = ChatDetailAdapter(dataset, firebaseViewModel)
     }
 
     override fun onCreateView(
@@ -66,9 +71,10 @@ class ChatDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         chatDetailRv = binding.chatDetailRV
+        chatDetailRv.adapter = rvAdapter
+        eventChangeListener()
 
-        val navBar =
-            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.GONE
 
         binding.chatpartnerNameTV.text = empfaenger
@@ -87,8 +93,9 @@ class ChatDetailFragment : Fragment() {
             binding.messageInputET.text?.clear()
 
         }
+        scrollToBottom()
 
-        if (rvAdapter.itemCount == 0) {
+/*        if (rvAdapter.itemCount == 0) {
             // Adapter erst initialisieren, wenn er leer ist
             rvAdapter = ChatDetailAdapter(loadedData, firebaseViewModel)
             chatDetailRv.adapter = rvAdapter
@@ -96,10 +103,34 @@ class ChatDetailFragment : Fragment() {
         } else {
             // Wenn der Adapter bereits Daten enthält, starte die Nachrichtenüberwachung
             startListeningForMessages()
-        }
+        }*/
     }
 
-    private fun loadDataFromFirestoreAndInitializeAdapter() {
+    private fun eventChangeListener() {
+
+        firebaseViewModel.firestore.collection("Chats").document(chatId!!).collection("msgList")
+            .addSnapshotListener(object : java.util.EventListener,
+                com.google.firebase.firestore.EventListener<QuerySnapshot> {
+                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                    var loadedData = mutableListOf<Message>()
+                    for(dc: DocumentChange in value?.documentChanges!!) {
+
+                        //if(dc.type == DocumentChange.Type.ADDED) {
+                            var message = dc.document.toObject(Message::class.java)
+                            dataset.add(message)
+                            Log.e("Messenger2", loadedData.toString())
+
+
+                        //}
+                    }
+                    rvAdapter.updataData(dataset)
+                    scrollToBottom()
+                }
+                })
+    }
+
+
+    /*private fun loadDataFromFirestoreAndInitializeAdapter() {
         firebaseViewModel.firestore.collection("Chats").document(chatId!!).collection("msgList")
             .get()
             .addOnSuccessListener { querySnapshot ->
@@ -139,6 +170,7 @@ class ChatDetailFragment : Fragment() {
                                     // Neue Nachricht hinzugefügt
                                     rvAdapter.addMessage(message)
                                     scrollToBottom()
+                                    rvAdapter.notifyDataSetChanged()
                                 }
 
                                 else -> {
@@ -159,6 +191,11 @@ class ChatDetailFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         listenerRegistration?.remove()
+    }*/
+
+    private fun scrollToBottom() {
+        // Scrolle zur neuesten Nachricht, um sicherzustellen, dass sie sichtbar ist
+        chatDetailRv.scrollToPosition(rvAdapter.itemCount - 1)
     }
 }
 
