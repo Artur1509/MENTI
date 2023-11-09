@@ -20,6 +20,7 @@ class ChatDetailAdapter(
         notifyItemInserted(dataset.size - 1)
     }
 
+
     class ItemViewHolder(val binding: MessageListItem1Binding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -36,6 +37,7 @@ class ChatDetailAdapter(
         holder.binding.messageTextTV.text = item.message
         holder.binding.messageTimeTV.text = item.erstellungsZeit
         holder.binding.messageDateTV.text = item.erstellungsDatum
+        holder.binding.absenderTV.text = item.absender
 
         Log.e("Messenger3", dataset.toString())
 

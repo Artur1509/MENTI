@@ -37,7 +37,6 @@ class ChatDetailFragment : Fragment() {
     private lateinit var dataset: MutableList<Message>
 
     private var loadedData: MutableList<Message> = mutableListOf()
-    private var listenerRegistration: ListenerRegistration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +47,6 @@ class ChatDetailFragment : Fragment() {
             absender = it.getString("absender")
         }
 
-        // Hier wird der Adapter erstellt
-        //val loadedData: MutableList<Message> = mutableListOf()
-        //rvAdapter = ChatDetailAdapter(loadedData, firebaseViewModel)
 
         dataset = loadedData
         rvAdapter = ChatDetailAdapter(dataset, firebaseViewModel)
@@ -93,19 +89,10 @@ class ChatDetailFragment : Fragment() {
             binding.messageInputET.text?.clear()
 
         }
-        scrollToBottom()
 
-/*        if (rvAdapter.itemCount == 0) {
-            // Adapter erst initialisieren, wenn er leer ist
-            rvAdapter = ChatDetailAdapter(loadedData, firebaseViewModel)
-            chatDetailRv.adapter = rvAdapter
-            loadDataFromFirestoreAndInitializeAdapter()
-        } else {
-            // Wenn der Adapter bereits Daten enthält, starte die Nachrichtenüberwachung
-            startListeningForMessages()
-        }*/
     }
 
+    //Aktuallisiert die Recyclerview jedes mal wenn eine neue Message rein kommt.
     private fun eventChangeListener() {
 
         firebaseViewModel.firestore.collection("Chats").document(chatId!!).collection("msgList")
@@ -121,8 +108,9 @@ class ChatDetailFragment : Fragment() {
                             Log.e("Messenger2", loadedData.toString())
 
 
-                        //}
+
                     }
+                    dataset.sortByDescending { it.timeStamp }
                     rvAdapter.updataData(dataset)
                     scrollToBottom()
                 }
@@ -130,72 +118,9 @@ class ChatDetailFragment : Fragment() {
     }
 
 
-    /*private fun loadDataFromFirestoreAndInitializeAdapter() {
-        firebaseViewModel.firestore.collection("Chats").document(chatId!!).collection("msgList")
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                // Geladene Daten zur vorhandenen Datenliste hinzufügen
-                for (document in querySnapshot) {
-                    val message = document.toObject(Message::class.java)
-                    loadedData.add(message)
-                    Log.e("Messenger", message.message.toString())
-                }
-
-                // Adapter bereits erstellt, also nicht erneut erstellen
-                // Nur notifyDataSetChanged() aufrufen, um die RecyclerView zu aktualisieren
-                rvAdapter.notifyDataSetChanged()
-            }
-    }
-
-
-    private fun startListeningForMessages() {
-        if (listenerRegistration == null) {
-            val messagesCollection = firebaseViewModel.firestore
-                .collection("Chats")
-                .document(chatId!!)
-                .collection("msgList")
-
-            listenerRegistration = messagesCollection
-                .addSnapshotListener(
-                    EventListener<QuerySnapshot> { snapshot, error ->
-                        if (error != null) {
-                            Log.e("msgFirestore", "Error listening for messages: $error")
-                            return@EventListener
-                        }
-
-                        snapshot?.documentChanges?.forEach { change ->
-                            val message = change.document.toObject(Message::class.java)
-                            when (change.type) {
-                                DocumentChange.Type.ADDED -> {
-                                    // Neue Nachricht hinzugefügt
-                                    rvAdapter.addMessage(message)
-                                    scrollToBottom()
-                                    rvAdapter.notifyDataSetChanged()
-                                }
-
-                                else -> {
-
-                                }
-                            }
-                        }
-                    }
-                )
-        }
-    }
-
     private fun scrollToBottom() {
-        // Scrolle zur neuesten Nachricht, um sicherzustellen, dass sie sichtbar ist
-        chatDetailRv.scrollToPosition(rvAdapter.itemCount - 1)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        listenerRegistration?.remove()
-    }*/
-
-    private fun scrollToBottom() {
-        // Scrolle zur neuesten Nachricht, um sicherzustellen, dass sie sichtbar ist
-        chatDetailRv.scrollToPosition(rvAdapter.itemCount - 1)
+        // Scrolle zur neuesten Nachricht
+        chatDetailRv.scrollToPosition(rvAdapter.itemCount -1)
     }
 }
 
