@@ -23,6 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.type.Date
 import java.text.SimpleDateFormat
+import java.util.Locale
 
 import kotlin.coroutines.coroutineContext
 
@@ -305,6 +306,7 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         _selectedFilter.postValue(listOf())
     }
 
+    //Chat erstellen
     fun createChat(
         absenderName: String,
         absenderId: String,
@@ -332,9 +334,39 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         )
 
         firestore.collection("Chats").document(chatId).set(neuerChat).addOnSuccessListener {
-            Log.e("Firestore", " Chat Erfolgreich erstellt")
+            Log.e("Messenger", " Chat Erfolgreich erstellt")
         }
 
+
+    }
+
+    //Message erstellen
+
+    fun createMessage(chatId: String, message: String, absender: String, empfaenger: String) {
+
+        //Timestamp für Datum und Uhrzeit
+        val timeStamp = Timestamp(java.util.Date())
+        val date: java.util.Date = timeStamp.toDate()
+        val dateFormat = SimpleDateFormat("dd.MM.yy") // TT.MM.JJ
+        val timeFormat = SimpleDateFormat("HH:mm")   // HH:mm
+        val formattedDate = dateFormat.format(date)
+        val formattedTime = timeFormat.format(date)
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val currentTime = java.util.Date()
+        val detailTimestamp = sdf.format(currentTime)
+
+        val neueMessage = hashMapOf(
+            "erstellungsDatum" to formattedDate,
+            "erstellungsZeit" to formattedTime,
+            "message" to message,
+            "absender" to absender,
+            "empfaenger" to empfaenger,
+            "timeStamp" to detailTimestamp
+        )
+        firestore.collection("Chats").document(chatId).collection("msgList").document().set(neueMessage).addOnSuccessListener {
+            Log.e("Messenger", "${detailTimestamp}")
+        }
 
     }
 

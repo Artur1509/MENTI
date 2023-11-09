@@ -16,6 +16,7 @@ import com.example.menti.databinding.FragmentMessengerBinding
 import com.example.menti.util.ChatsAdapter
 import com.example.menti.util.EventAdapter
 import com.example.menti.util.NotificationsAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MessengerFragment : Fragment() {
 
@@ -36,6 +37,9 @@ class MessengerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        navBar.visibility = View.VISIBLE
 
         chatRV = binding.chatsRV
         loadDataFromFirestoreAndInitializeAdapter()

@@ -146,6 +146,8 @@ class DetailFragment : Fragment() {
                     )
                 }
 
+            findNavController().navigate(DetailFragmentDirections.actionDetailFragmentToMessengerFragment())
+
         }
 
 
