@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.menti.FirebaseViewModel
@@ -46,7 +47,6 @@ class PersoenlicheAngabenFragment : Fragment() {
         }
 
         binding.toZahlungBTN.setOnClickListener {
-            findNavController().navigate(PersoenlicheAngabenFragmentDirections.actionPersoenlicheAngabenFragmentToZahlungsartenFragment())
 
             val vorname = binding.rechnungVornameET.text.toString()
             val name = binding.rechnungNameET.text.toString()
@@ -54,8 +54,17 @@ class PersoenlicheAngabenFragment : Fragment() {
             val ort = binding.rechnungOrtET.text.toString()
             val anschrift = binding.rechnungAnschriftET.text.toString()
 
+            if (vorname.isEmpty() || name.isEmpty() || plz.isEmpty() || ort.isEmpty() || anschrift.isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Bitte fülle das Formular vollständig aus.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                firebaseViewModel.editRechnungsAdresse(vorname, name, plz, ort, anschrift, this)
+                findNavController().navigate(PersoenlicheAngabenFragmentDirections.actionPersoenlicheAngabenFragmentToZahlungsartenFragment())
+            }
 
-            firebaseViewModel.editRechnungsAdresse(vorname, name, plz, ort, anschrift, this)
         }
 
     }

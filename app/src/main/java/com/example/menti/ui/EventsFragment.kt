@@ -57,7 +57,7 @@ class EventsFragment : Fragment() {
                 }
 
                 // Adapter wird erstellt und mit den neuen Daten initialisiert
-                rvAdapter = EventAdapter(loadedData, firebaseViewModel)
+                rvAdapter = EventAdapter(loadedData, firebaseViewModel, requireContext())
                 eventsRV.adapter = rvAdapter
             }
     }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.menti.databinding.FragmentSignupBinding
@@ -45,8 +46,13 @@ class SignupFragment : Fragment() {
         binding.createAccountBTN.setOnClickListener {
             val email = binding.signupEmailInputET.text.toString()
             val password = binding.signupRepeatPasswordET.text.toString()
+            val password2 = binding.passwordSignUpET.text.toString()
 
-            firebaseViewModel.signUp(email, password)
+            if(password != password2) {
+                Toast.makeText(requireContext(), "Deine Passwörter stimmen nicht überein.", Toast.LENGTH_SHORT).show()
+            }else {
+                firebaseViewModel.signUp(email, password, this)
+            }
 
         }
 

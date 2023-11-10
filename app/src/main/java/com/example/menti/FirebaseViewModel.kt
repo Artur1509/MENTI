@@ -33,6 +33,7 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
 
     //Firebase Authentication
     val auth = FirebaseAuth.getInstance()
+
     //Firebase Datenbank
     val firestore = FirebaseFirestore.getInstance()
 
@@ -45,7 +46,7 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         get() = _selectedFilter
 
     //User Profil Dokument Referenz
-    lateinit var profileRef : DocumentReference
+    lateinit var profileRef: DocumentReference
 
     private val _user: MutableLiveData<FirebaseUser?> = MutableLiveData()
     val user: LiveData<FirebaseUser?>
@@ -56,7 +57,8 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
     init {
         setupUserEnv()
     }
-    fun setupUserEnv(){
+
+    fun setupUserEnv() {
         _user.value = auth.currentUser
 
         auth.currentUser?.let {
@@ -75,15 +77,17 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
     fun saveTermin(termin: Uhrzeit) {
         _terminAuswahl.postValue(termin)
     }
+
     //Ausgewählte Leistung
     private val _leistungAuswahl: MutableLiveData<Leistung> = MutableLiveData()
     val leistungAuswahl: LiveData<Leistung>
-        get() =_leistungAuswahl
+        get() = _leistungAuswahl
 
     //Wert einer Ausgewählten Leistung in Livedata speichern
     fun saveLeistung(leistung: Leistung) {
         _leistungAuswahl.postValue(leistung)
     }
+
     //Ausgewählter Experte
     private val _experteAuswahl: MutableLiveData<PsychologistProfile> = MutableLiveData()
     val experteAuswahl: LiveData<PsychologistProfile>
@@ -97,43 +101,82 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
     // -------------------------------------- E-MAIL & PASSWORT ------------------------------------------------- //
 
     //Einloggen
-    fun signIn(email: String, password: String) {
+    fun signIn(email: String, password: String, fragment: Fragment) {
+        try {
 
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
 
-            setupUserEnv()
+                setupUserEnv()
+            }.addOnSuccessListener {
+                Toast.makeText(fragment.requireContext(), "Login erfolgreich.", Toast.LENGTH_SHORT)
+                    .show()
+            }
+                .addOnFailureListener() {
+                    Toast.makeText(
+                        fragment.requireContext(),
+                        "Login fehlgeschlagen: Deine Anmeldedaten sind uns nicht bekannt.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        } catch (e: Exception) {
+            Toast.makeText(
+                fragment.requireContext(),
+                "Bitte melde dich mit deiner E-Mail und deinem Passwort an.",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
     //Neuen Account erstellen
-    fun signUp(email: String, password: String) {
+    fun signUp(email: String, password: String, fragment: Fragment) {
 
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-            //Wenn Task fertig ist dann überprüfe z.B. ob der User eingeloggt wurde
-            //oder ob es Fehler gab o.Ä.
+        try {
+            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+                //Wenn Task fertig ist dann überprüfe z.B. ob der User eingeloggt wurde
+                //oder ob es Fehler gab o.Ä.
 
-            setupUserEnv()
+                setupUserEnv()
 
-            // Nutzerprofil Daten
-            val userProfile = hashMapOf(
-                "anrede" to "",
-                "vorname" to "",
-                "name" to "",
-                "plz" to "",
-                "ort" to "",
-                "anschrift" to "",
-                "telefonnummer" to "",
-                "istEndnutzer" to true
-            )
+                // Nutzerprofil Daten
+                val userProfile = hashMapOf(
+                    "anrede" to "",
+                    "vorname" to "",
+                    "name" to "",
+                    "plz" to "",
+                    "ort" to "",
+                    "anschrift" to "",
+                    "telefonnummer" to "",
+                    "istEndnutzer" to true
+                )
 
-            // Daten in firestore Speichern
-            firestore.collection("Profile").document(email).set(userProfile)
+                // Daten in firestore Speichern
+                firestore.collection("Profile").document(email).set(userProfile)
+            }.addOnSuccessListener {
+                Toast.makeText(
+                    fragment.requireContext(),
+                    "Dein Account wurde erstellt.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        fragment.requireContext(),
+                        "Fehler: Ungültige E-Mail.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        } catch (e: Exception) {
+            Toast.makeText(
+                fragment.requireContext(),
+                "Bitte fülle das Anmeldeformular vollständig aus.",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
     }
 
     // Ausloggen
-    fun signOut(){
+    fun signOut() {
         auth.signOut()
         _user.value = auth.currentUser
     }
@@ -141,7 +184,16 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
     // -------------------------------------- FIRESTORE DATABASE ------------------------------------------------- //
 
     //Nutzerdaten bearbeiten
-    fun editProfile(anrede: String, vorname: String, name: String, plz: String, ort: String, anschrift: String, telefonNummer: String, fragment: Fragment) {
+    fun editProfile(
+        anrede: String,
+        vorname: String,
+        name: String,
+        plz: String,
+        ort: String,
+        anschrift: String,
+        telefonNummer: String,
+        fragment: Fragment
+    ) {
 
         val userProfileUpdate = hashMapOf(
             "anrede" to anrede,
@@ -158,16 +210,31 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         firestore.collection("Profile").document(_user.value!!.email!!)
             .set(userProfileUpdate, SetOptions.merge())
             .addOnSuccessListener {
-                Toast.makeText(fragment.requireContext(), "Aktualisierung erfolgreich", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    fragment.requireContext(),
+                    "Aktualisierung erfolgreich",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             .addOnFailureListener { e ->
-                Toast.makeText(fragment.requireContext(), "Fehler: " + e.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    fragment.requireContext(),
+                    "Fehler: " + e.message,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
     }
 
     //Rechnungsadresse bearbeiten
-    fun editRechnungsAdresse(vorname: String, name: String, plz: String, ort: String, anschrift: String, fragment: Fragment) {
+    fun editRechnungsAdresse(
+        vorname: String,
+        name: String,
+        plz: String,
+        ort: String,
+        anschrift: String,
+        fragment: Fragment
+    ) {
 
         val userProfileUpdate = hashMapOf(
             "vorname" to vorname,
@@ -181,10 +248,18 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         firestore.collection("Profile").document(_user.value!!.email!!)
             .set(userProfileUpdate, SetOptions.merge())
             .addOnSuccessListener {
-                Toast.makeText(fragment.requireContext(), "Aktualisierung erfolgreich", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    fragment.requireContext(),
+                    "Aktualisierung erfolgreich",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             .addOnFailureListener { e ->
-                Toast.makeText(fragment.requireContext(), "Fehler: " + e.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    fragment.requireContext(),
+                    "Fehler: " + e.message,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
     }
@@ -197,32 +272,37 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         var favorit = hashMapOf(
             "reference" to reference
         )
-        firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").document().set(favorit).addOnSuccessListener {
-            Log.e("Firestore", "Erfolgreich hinzugefügt")
-        }
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten")
+            .document().set(favorit).addOnSuccessListener {
+                Log.e("Firestore", "Erfolgreich hinzugefügt")
+            }
 
         // Verhindern das Favoriten doppelt gespeichert werden können.
-        firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").whereEqualTo("reference", reference)
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten")
+            .whereEqualTo("reference", reference)
             .get().addOnSuccessListener { documents ->
                 var docSize = documents.size()
                 var docIdList: MutableList<String> = mutableListOf()
 
-                if(docSize > 1) {
-                    for(document in documents) {
+                if (docSize > 1) {
+                    for (document in documents) {
                         docIdList.add(document.id)
                     }
-                    firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").document(docIdList.last()).delete().addOnSuccessListener {
-                        Log.e("Firestore", "Erfolgreich gelöscht")
-                    }
+                    firestore.collection("Profile").document(_user.value!!.email!!)
+                        .collection("Favoriten").document(docIdList.last()).delete()
+                        .addOnSuccessListener {
+                            Log.e("Firestore", "Erfolgreich gelöscht")
+                        }
                 }
             }
     }
 
     // Favorit entfernen
     fun removeFavorite(id: String) {
-        firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten").document(id).delete().addOnSuccessListener {
-            Log.e("Firestore", "Erfolgreich gelöscht")
-        }
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Favoriten")
+            .document(id).delete().addOnSuccessListener {
+                Log.e("Firestore", "Erfolgreich gelöscht")
+            }
     }
 
     //Filter anpassen
@@ -230,8 +310,8 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
     fun selectFilterOptions(dataset: List<Category>) {
 
         var checkedCategories = mutableListOf<String>()
-        for(category in dataset) {
-            if(category.isChecked) {
+        for (category in dataset) {
+            if (category.isChecked) {
                 checkedCategories.add(category.name)
             }
         }
@@ -264,14 +344,16 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
 
         )
 
-        firestore.collection("Profile").document(_user.value!!.email!!).collection("Events").document().set(event).addOnSuccessListener {
-            Log.e("Firestore", " Event Erfolgreich hinzugefügt")
-        }
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Events")
+            .document().set(event).addOnSuccessListener {
+                Log.e("Firestore", " Event Erfolgreich hinzugefügt")
+            }
     }
 
     // Event Stornieren
     fun deleteEvent(id: String) {
-        firestore.collection("Profile").document(_user.value!!.email!!).collection("Events").document(id).delete()
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Events")
+            .document(id).delete()
     }
 
     //Event Notification erstellen
@@ -292,17 +374,19 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
             "typ" to "termin"
         )
 
-        firestore.collection("Profile").document(_user.value!!.email!!).collection("Notifications").document().set(notification).addOnSuccessListener {
-            Log.e("Firestore", " Notification Erfolgreich hinzugefügt")
-        }
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Notifications")
+            .document().set(notification).addOnSuccessListener {
+                Log.e("Firestore", " Notification Erfolgreich hinzugefügt")
+            }
     }
 
     fun deleteNotification(id: String) {
-        firestore.collection("Profile").document(_user.value!!.email!!).collection("Notifications").document(id).delete()
+        firestore.collection("Profile").document(_user.value!!.email!!).collection("Notifications")
+            .document(id).delete()
     }
 
     // Filter zurücksetzen
-    fun resetFilter(){
+    fun resetFilter() {
         _selectedFilter.postValue(listOf())
     }
 
@@ -313,7 +397,7 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         empfaengerName: String,
         empfaengerId: String,
         chatId: String
-        ) {
+    ) {
 
         //Timestamp für Datum und Uhrzeit
         val timeStamp = Timestamp(java.util.Date())
@@ -364,9 +448,10 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
             "empfaenger" to empfaenger,
             "timeStamp" to detailTimestamp
         )
-        firestore.collection("Chats").document(chatId).collection("msgList").document().set(neueMessage).addOnSuccessListener {
-            Log.e("Messenger", "${detailTimestamp}")
-        }
+        firestore.collection("Chats").document(chatId).collection("msgList").document()
+            .set(neueMessage).addOnSuccessListener {
+                Log.e("Messenger", "${detailTimestamp}")
+            }
 
     }
 

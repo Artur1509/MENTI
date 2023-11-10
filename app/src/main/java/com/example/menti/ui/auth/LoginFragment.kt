@@ -30,7 +30,8 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Bottom Navbar unsichtbar
-        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        val navBar =
+            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.GONE
 
         // Navigation zum Signup Fragment
@@ -44,11 +45,10 @@ class LoginFragment : Fragment() {
             val email = binding.emailinputET.text.toString()
             val password = binding.passwordInputET.text.toString()
 
-            firebaseViewModel.signIn(email, password)
-
+            firebaseViewModel.signIn(email, password, this)
         }
 
-        
+
         // Google Login
         binding.googleLoginBTN.setOnClickListener {
 
@@ -56,7 +56,7 @@ class LoginFragment : Fragment() {
 
         // Prüfe ob User eingeloggt ist
         firebaseViewModel.user.observe(viewLifecycleOwner) {
-            if(it != null) {
+            if (it != null) {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
                 navBar.visibility = View.VISIBLE
             }

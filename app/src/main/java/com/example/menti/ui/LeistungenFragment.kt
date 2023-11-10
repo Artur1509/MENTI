@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -25,7 +26,6 @@ class LeistungenFragment : Fragment() {
     var vorname: String? = ""
     var beruf: String? = ""
     var bewertung: Float? = 0F
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,14 +71,27 @@ class LeistungenFragment : Fragment() {
         binding.leistungRatingBar.rating = bewertung!!
 
         binding.toTermineBTN.setOnClickListener {
-            findNavController().navigate(LeistungenFragmentDirections.actionLeistungenFragmentToTermineFragment(
-                profilePicture = profilePicture!!,
-                vorname = vorname!!,
-                name = name!!,
-                beruf = beruf!!,
-                titel = titel!!,
-                bewertung = bewertung!!
-            ))
+
+            if (firebaseViewModel.leistungAuswahl.value == null) {
+
+                Toast.makeText(
+                    requireContext(),
+                    "Bitte wähle eine Leistung aus.",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            } else {
+                findNavController().navigate(
+                    LeistungenFragmentDirections.actionLeistungenFragmentToTermineFragment(
+                        profilePicture = profilePicture!!,
+                        vorname = vorname!!,
+                        name = name!!,
+                        beruf = beruf!!,
+                        titel = titel!!,
+                        bewertung = bewertung!!
+                    )
+                )
+            }
         }
 
 

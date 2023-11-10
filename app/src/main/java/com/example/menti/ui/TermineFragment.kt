@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -42,7 +43,8 @@ class TermineFragment : Fragment() {
             beruf = it.getString("beruf")
             bewertung = it.getFloat("bewertung")
         }
-        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        val navBar =
+            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.menu.getItem(4).isChecked = true
     }
 
@@ -75,9 +77,16 @@ class TermineFragment : Fragment() {
         }
 
         binding.toZahlungsoptionenBTN.setOnClickListener {
-            findNavController().navigate(TermineFragmentDirections.actionTermineFragmentToPersoenlicheAngabenFragment())
-            Log.e("firestore", firebaseViewModel.experteAuswahl.value!!.toString())
 
+            if (firebaseViewModel.terminAuswahl.value == null) {
+                Toast.makeText(
+                    requireContext(),
+                    "Bitte wähle einen Termin aus.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                findNavController().navigate(TermineFragmentDirections.actionTermineFragmentToPersoenlicheAngabenFragment())
+            }
         }
     }
 

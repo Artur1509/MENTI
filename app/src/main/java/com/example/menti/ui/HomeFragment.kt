@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.get
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -53,6 +54,7 @@ class HomeFragment : Fragment() {
         // Ausloggen
         binding.logoutBTN.setOnClickListener {
             firebaseViewModel.signOut()
+            Toast.makeText(requireContext(), "Du hast dich erfolgreich abgemeldet.", Toast.LENGTH_SHORT).show()
         }
 
         // Zum Profilangaben Fragment

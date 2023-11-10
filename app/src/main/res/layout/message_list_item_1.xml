@@ -12,7 +12,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/secondary"
+        android:backgroundTint="@color/white"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:text="TextView"
+                android:textColor="@color/primary"
                 app:layout_constraintBottom_toBottomOf="@+id/messageTimeTV"
                 app:layout_constraintEnd_toStartOf="@+id/textView42"
                 app:layout_constraintTop_toTopOf="@+id/messageTimeTV"
@@ -67,6 +68,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
+                android:textColor="@color/primary"
                 app:layout_constraintBottom_toBottomOf="@+id/messageTimeTV"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/messageTextTV" />
@@ -77,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:text="|"
+                android:textColor="@color/font"
                 app:layout_constraintBottom_toBottomOf="@+id/messageTimeTV"
                 app:layout_constraintEnd_toStartOf="@+id/messageTimeTV"
                 app:layout_constraintTop_toTopOf="@+id/messageTimeTV" />
