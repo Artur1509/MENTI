@@ -56,7 +56,8 @@ class SearchFragment : Fragment() {
 
 
         // Navbar sichtbarkeit
-        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        val navBar =
+            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.VISIBLE
 
         navBar.menu.getItem(0).isChecked = true

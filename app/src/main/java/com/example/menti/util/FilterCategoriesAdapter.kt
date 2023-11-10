@@ -13,13 +13,15 @@ class FilterCategoriesAdapter(
     var originalDataset: List<Category>,
     var viewModel: FirebaseViewModel
 
-    ): RecyclerView.Adapter<FilterCategoriesAdapter.ItemViewHolder>() {
+) : RecyclerView.Adapter<FilterCategoriesAdapter.ItemViewHolder>() {
     private var dataset = originalDataset
+
     class ItemViewHolder(val binding: FilterListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val binding = FilterListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            FilterListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
     }
 

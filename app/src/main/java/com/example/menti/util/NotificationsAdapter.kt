@@ -16,13 +16,14 @@ class NotificationsAdapter(
     var firebaseViewModel: FirebaseViewModel,
 
 
-    ): RecyclerView.Adapter<NotificationsAdapter.ItemViewHolder>() {
+    ) : RecyclerView.Adapter<NotificationsAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(val binding: NotificationListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val binding = NotificationListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            NotificationListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
     }
 
@@ -37,8 +38,9 @@ class NotificationsAdapter(
 
         // Löscht die Notification und navigiert zum Events Fragment
         holder.binding.notificationCV.setOnClickListener {
-            if(item.typ == "termin") {
-                holder.itemView.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToEventsFragment())
+            if (item.typ == "termin") {
+                holder.itemView.findNavController()
+                    .navigate(HomeFragmentDirections.actionHomeFragmentToEventsFragment())
                 firebaseViewModel.deleteNotification(item.id)
 
             }
@@ -49,7 +51,6 @@ class NotificationsAdapter(
     override fun getItemCount(): Int {
         return dataset.size
     }
-
 
 
 }

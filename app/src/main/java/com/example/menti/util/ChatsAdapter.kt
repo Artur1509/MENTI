@@ -39,7 +39,13 @@ class ChatsAdapter(
             Log.e("Chat", item.chatId.toString())
 
             val navController = holder.itemView.findNavController()
-            navController.navigate(MessengerFragmentDirections.actionMessengerFragmentToChatDetailFragment(chatId = item.chatId, empfaenger = item.empfaengerName, absender = item.absenderName))
+            navController.navigate(
+                MessengerFragmentDirections.actionMessengerFragmentToChatDetailFragment(
+                    chatId = item.chatId,
+                    empfaenger = item.empfaengerName,
+                    absender = item.absenderName
+                )
+            )
         }
     }
 

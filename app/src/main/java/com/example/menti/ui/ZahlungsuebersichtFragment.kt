@@ -57,7 +57,8 @@ class ZahlungsuebersichtFragment : Fragment() {
 
     fun loadProfileDataFromFirestore() {
 
-        firebaseViewModel.firestore.collection("Profile").document(firebaseViewModel.user.value!!.email!!)
+        firebaseViewModel.firestore.collection("Profile")
+            .document(firebaseViewModel.user.value!!.email!!)
             .get()
             .addOnSuccessListener {
 

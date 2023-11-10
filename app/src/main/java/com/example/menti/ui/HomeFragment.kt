@@ -42,19 +42,24 @@ class HomeFragment : Fragment() {
         notificationsRV = binding.notificationsRV
 
         //Navbar Sichtbarkeit
-        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        val navBar =
+            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.VISIBLE
         navBar.menu.getItem(2).isChecked = true
 
         // Zum Filterfragment
-        binding.searchBTN.setOnClickListener{
+        binding.searchBTN.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToFilterFragment())
         }
 
         // Ausloggen
         binding.logoutBTN.setOnClickListener {
             firebaseViewModel.signOut()
-            Toast.makeText(requireContext(), "Du hast dich erfolgreich abgemeldet.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "Du hast dich erfolgreich abgemeldet.",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         // Zum Profilangaben Fragment
@@ -66,7 +71,7 @@ class HomeFragment : Fragment() {
 
         // Prüfe ob User eingeloggt ist, wenn nicht -> Navigation zum LoginFragment
         firebaseViewModel.user.observe(viewLifecycleOwner) {
-            if(it == null) {
+            if (it == null) {
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToLoginFragment())
             }
         }
@@ -76,7 +81,8 @@ class HomeFragment : Fragment() {
     }
 
     fun loadDataFromFirestoreAndInitializeAdapter() {
-        firebaseViewModel.firestore.collection("Profile").document(firebaseViewModel.user.value!!.email!!)
+        firebaseViewModel.firestore.collection("Profile")
+            .document(firebaseViewModel.user.value!!.email!!)
             .collection("Notifications")
             .get()
             .addOnSuccessListener { querySnapshot ->

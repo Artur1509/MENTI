@@ -43,7 +43,8 @@ class EventsFragment : Fragment() {
 
 
     fun loadDataFromFirestoreAndInitializeAdapter() {
-        firebaseViewModel.firestore.collection("Profile").document(firebaseViewModel.user.value!!.email!!)
+        firebaseViewModel.firestore.collection("Profile")
+            .document(firebaseViewModel.user.value!!.email!!)
             .collection("Events")
             .get()
             .addOnSuccessListener { querySnapshot ->

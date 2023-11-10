@@ -23,7 +23,7 @@ class FavoritesAdapter(
     var dataset: ArrayList<Pair<String, PsychologistProfile>>,
     var firebaseViewModel: FirebaseViewModel
 
-    ): RecyclerView.Adapter<FavoritesAdapter.ItemViewHolder>() {
+) : RecyclerView.Adapter<FavoritesAdapter.ItemViewHolder>() {
     class ItemViewHolder(val binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -64,16 +64,18 @@ class FavoritesAdapter(
                 val navController = holder.itemView.findNavController()
                 navController.navigate(
                     FavoritesFragmentDirections.actionFavoritesFragmentToDetailFragment(
-                    profilePicture = profil.bild!!,
-                    titel = profil.titel!!,
-                    name = profil.name!!,
-                    vorname = profil.vorname!!,
-                    beruf = profil.beruf!!,
-                    bewertung = profil.bewertung!!,
-                    beschreibung = profil.beschreibung!!,
-                    tags = profil.tags!!.toTypedArray()))
+                        profilePicture = profil.bild!!,
+                        titel = profil.titel!!,
+                        name = profil.name!!,
+                        vorname = profil.vorname!!,
+                        beruf = profil.beruf!!,
+                        bewertung = profil.bewertung!!,
+                        beschreibung = profil.beschreibung!!,
+                        tags = profil.tags!!.toTypedArray()
+                    )
+                )
 
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 Log.e("RV", "${e.message}")
             }
         }
@@ -87,28 +89,30 @@ class FavoritesAdapter(
 
 
     }
+
     override fun getItemCount(): Int {
         return dataset.size
     }
 
     // Eigenschaften der erstellten Chips
-    fun ChipGroup.addChip(label: String ) {
+    fun ChipGroup.addChip(label: String) {
         Chip(context).apply {
 
             id = View.generateViewId()
             text = label
             isClickable = false
             isFocusable = false
-            chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
+            chipBackgroundColor =
+                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
             setEnsureMinTouchTargetSize(false)
             addView(this)
         }
     }
 
     // Update die Daten in der RV
-        fun updateData(newData: ArrayList<Pair<String, PsychologistProfile>>) {
-            dataset = newData!!
-            notifyDataSetChanged()
-        }
+    fun updateData(newData: ArrayList<Pair<String, PsychologistProfile>>) {
+        dataset = newData!!
+        notifyDataSetChanged()
+    }
 
 }

@@ -70,7 +70,8 @@ class ChatDetailFragment : Fragment() {
         chatDetailRv.adapter = rvAdapter
         eventChangeListener()
 
-        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        val navBar =
+            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.GONE
 
         binding.chatpartnerNameTV.text = empfaenger
@@ -100,13 +101,12 @@ class ChatDetailFragment : Fragment() {
                 com.google.firebase.firestore.EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                     var loadedData = mutableListOf<Message>()
-                    for(dc: DocumentChange in value?.documentChanges!!) {
+                    for (dc: DocumentChange in value?.documentChanges!!) {
 
                         //if(dc.type == DocumentChange.Type.ADDED) {
-                            var message = dc.document.toObject(Message::class.java)
-                            dataset.add(message)
-                            Log.e("Messenger2", loadedData.toString())
-
+                        var message = dc.document.toObject(Message::class.java)
+                        dataset.add(message)
+                        Log.e("Messenger2", loadedData.toString())
 
 
                     }
@@ -114,13 +114,13 @@ class ChatDetailFragment : Fragment() {
                     rvAdapter.updataData(dataset)
                     scrollToBottom()
                 }
-                })
+            })
     }
 
 
     private fun scrollToBottom() {
         // Scrolle zur neuesten Nachricht
-        chatDetailRv.scrollToPosition(rvAdapter.itemCount -1)
+        chatDetailRv.scrollToPosition(rvAdapter.itemCount - 1)
     }
 }
 

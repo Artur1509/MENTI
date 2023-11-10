@@ -15,13 +15,14 @@ class LeistungenAdapter(
     var dataset: List<Leistung>,
     var viewModel: FirebaseViewModel
 
-): RecyclerView.Adapter<LeistungenAdapter.ItemViewHolder>() {
+) : RecyclerView.Adapter<LeistungenAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(val binding: LeistungListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val binding = LeistungListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            LeistungListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
     }
 
@@ -36,7 +37,7 @@ class LeistungenAdapter(
         // Nur eine Checkbox auswählbar
         holder.binding.checkBoxCB.setOnClickListener {
 
-            for(i in dataset.indices) {
+            for (i in dataset.indices) {
                 dataset[i].isChecked = (i == position)
             }
             holder.binding.checkBoxCB.isChecked = item.isChecked
@@ -47,8 +48,6 @@ class LeistungenAdapter(
         leistungsAuswahl(dataset)
 
 
-
-
     }
 
     override fun getItemCount(): Int {
@@ -56,8 +55,8 @@ class LeistungenAdapter(
     }
 
     fun leistungsAuswahl(dataset: List<Leistung>) {
-        for(i in dataset) {
-            if(i.isChecked) {
+        for (i in dataset) {
+            if (i.isChecked) {
                 viewModel.saveLeistung(i)
             }
         }

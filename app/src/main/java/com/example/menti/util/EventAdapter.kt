@@ -18,7 +18,7 @@ class EventAdapter(
     var context: Context
 
 
-    ) : RecyclerView.Adapter<EventAdapter.ItemViewHolder>() {
+) : RecyclerView.Adapter<EventAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(val binding: EventListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -50,7 +50,8 @@ class EventAdapter(
                     if (position != RecyclerView.NO_POSITION) {
                         dataset.removeAt(position)
                         notifyItemRemoved(position)
-                        Toast.makeText(context, "Dein Termin wurde Storniert.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Dein Termin wurde Storniert.", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 } catch (e: Exception) {
 

@@ -26,15 +26,17 @@ import com.google.android.material.chip.ChipGroup
 class TermineAdapter(
     var dataset: List<TerminDaten>,
     var viewModel: FirebaseViewModel,
-    var context : Context
+    var context: Context
 
-): RecyclerView.Adapter<TermineAdapter.ItemViewHolder>() {
+) : RecyclerView.Adapter<TermineAdapter.ItemViewHolder>() {
     private var selectedChipId: Int = View.NO_ID
+
     class ItemViewHolder(val binding: TermineListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val binding = TermineListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            TermineListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
     }
 
@@ -45,10 +47,9 @@ class TermineAdapter(
         holder.binding.datumTV.text = item.datum
 
         // Hintergrundfarbe jedes 2 items ändern
-        if (position%2 == 0) {
+        if (position % 2 == 0) {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.secondary))
-        }
-        else {
+        } else {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
         }
 
@@ -58,7 +59,7 @@ class TermineAdapter(
         val background = (holder.itemView.background as ColorDrawable).color
 
         // Hier werden die Chips anhand der Uhrzeiten im Dataset erstellt, die while schleife verhindert das die chips bei jedem click auf einen chip dupliziert werden.
-        while(chipGroup.size != item.uhrzeit.size) {
+        while (chipGroup.size != item.uhrzeit.size) {
             item.uhrzeit.forEach {
                 holder.binding.uhrzeitenCG.addChip(it.zeit)
             }
@@ -77,11 +78,25 @@ class TermineAdapter(
             if (chip.id == selectedChipId) {
                 // selected chip
                 chip.setChipBackgroundColorResource(R.color.primary)
-                chip.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white)))
+                chip.setTextColor(
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.white
+                        )
+                    )
+                )
             } else {
                 // unselected chip
                 chip.chipBackgroundColor = ColorStateList.valueOf(background)
-                chip.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.primary)))
+                chip.setTextColor(
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.primary
+                        )
+                    )
+                )
             }
 
             chip.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -91,7 +106,7 @@ class TermineAdapter(
                         selectedChipId = chip.id
 
                         // Setzt alle isChecked booleans im dataset auf false
-                        for(i in dataset.indices) {
+                        for (i in dataset.indices) {
                             dataset[i].uhrzeit.forEach {
                                 it.isChecked = false
                             }
@@ -105,8 +120,11 @@ class TermineAdapter(
                         // Holt die exakte uhrzeit aus dem ausgewählten termin
                         gefilterteTermine.forEach {
                             it.uhrzeit.forEach {
-                                if(it.isChecked) {
-                                    Log.e("termine1", "${gefilterteTermine.first().datum} ${it.zeit}")
+                                if (it.isChecked) {
+                                    Log.e(
+                                        "termine1",
+                                        "${gefilterteTermine.first().datum} ${it.zeit}"
+                                    )
                                 }
                             }
                         }
@@ -122,10 +140,6 @@ class TermineAdapter(
         terminAuswaehlen(dataset[position])
 
 
-
-
-
-
     }
 
     override fun getItemCount(): Int {
@@ -134,14 +148,14 @@ class TermineAdapter(
 
     fun terminAuswaehlen(terminDaten: TerminDaten) {
 
-        for(i in terminDaten.uhrzeit) {
-            if(i.isChecked) {
+        for (i in terminDaten.uhrzeit) {
+            if (i.isChecked) {
                 viewModel.saveTermin(i)
             }
         }
     }
 
-    fun ChipGroup.addChip(label: String ) {
+    fun ChipGroup.addChip(label: String) {
         Chip(context).apply {
 
             id = View.generateViewId()

@@ -12,7 +12,6 @@ import com.example.menti.ui.MessengerFragment
 import com.example.menti.ui.SearchFragment
 
 
-
 class MainActivity : AppCompatActivity() {
 
 
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         //Bottom Navigation Steuerung
         binding.bottomNavigation.setOnItemSelectedListener {
 
-            when(it.itemId){
+            when (it.itemId) {
 
                 R.id.search -> findNavController(R.id.navHostFragment).navigate(R.id.searchFragment)
                 R.id.favorites -> findNavController(R.id.navHostFragment).navigate(R.id.favoritesFragment)

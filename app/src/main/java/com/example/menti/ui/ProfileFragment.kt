@@ -31,7 +31,8 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Bottom Navbar unsichtbar
-        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        val navBar =
+            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.GONE
 
         //Zurück zum Home Fragment
@@ -66,7 +67,16 @@ class ProfileFragment : Fragment() {
             val anschrift = binding.profileAnschriftET.text.toString()
             val telefonNummer = binding.profileTelefonnummerET.text.toString()
 
-            firebaseViewModel.editProfile(anrede, vorname, name, plz, ort, anschrift, telefonNummer, this)
+            firebaseViewModel.editProfile(
+                anrede,
+                vorname,
+                name,
+                plz,
+                ort,
+                anschrift,
+                telefonNummer,
+                this
+            )
 
         }
     }

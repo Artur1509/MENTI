@@ -40,7 +40,8 @@ class FilterFragment : Fragment() {
         categoriesRV.adapter = filterCategoriesAdapter
 
         //Navbar unsichtbar
-        val navBar = requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        val navBar =
+            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
         navBar.visibility = View.GONE
 
         // Zurück zum Homescreen
@@ -52,7 +53,7 @@ class FilterFragment : Fragment() {
         binding.toSearchResultsBTN.setOnClickListener {
             findNavController().navigate(FilterFragmentDirections.actionFilterFragmentToSearchFragment())
             firebaseViewModel.selectFilterOptions(data)
-            Log.e("Filter", data.toString() )
+            Log.e("Filter", data.toString())
         }
 
         // Filtert die Recyclerveiw nach dem Textinput in der Suche
