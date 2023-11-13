@@ -15,6 +15,7 @@ import com.example.menti.databinding.FragmentEventsBinding
 import com.example.menti.databinding.FragmentSearchBinding
 import com.example.menti.util.EventAdapter
 import com.example.menti.util.SearchResultAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.DocumentReference
 
 class EventsFragment : Fragment() {
@@ -24,6 +25,17 @@ class EventsFragment : Fragment() {
 
     private lateinit var eventsRV: RecyclerView
     private lateinit var rvAdapter: EventAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Navbar sichtbarkeit
+        val navBar =
+            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        navBar.visibility = View.VISIBLE
+
+        navBar.menu.getItem(4).isChecked = true
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

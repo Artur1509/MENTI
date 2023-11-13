@@ -42,6 +42,16 @@ class SearchFragment : Fragment() {
 
     private var googleMap: GoogleMap? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Navbar sichtbarkeit
+        val navBar =
+            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        navBar.visibility = View.VISIBLE
+
+        navBar.menu.getItem(0).isChecked = true
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,12 +65,6 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        // Navbar sichtbarkeit
-        val navBar =
-            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
-        navBar.visibility = View.VISIBLE
-
-        navBar.menu.getItem(0).isChecked = true
 
         //Recyclerview
         searchRV = binding.searchResultsRV

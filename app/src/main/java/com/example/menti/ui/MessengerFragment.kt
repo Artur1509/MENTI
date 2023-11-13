@@ -25,6 +25,17 @@ class MessengerFragment : Fragment() {
     private lateinit var chatRV: RecyclerView
     private lateinit var rvAdapter: ChatsAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Navbar sichtbarkeit
+        val navBar =
+            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        navBar.visibility = View.VISIBLE
+
+        navBar.menu.getItem(3).isChecked = true
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,10 +48,6 @@ class MessengerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val navBar =
-            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
-        navBar.visibility = View.VISIBLE
 
         chatRV = binding.chatsRV
         loadDataFromFirestoreAndInitializeAdapter()
