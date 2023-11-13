@@ -49,6 +49,10 @@ class MessengerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val navBar =
+            requireActivity().findViewById<BottomNavigationView>(com.example.menti.R.id.bottomNavigation)
+        navBar.visibility = View.VISIBLE
+
         chatRV = binding.chatsRV
         loadDataFromFirestoreAndInitializeAdapter()
 
