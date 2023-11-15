@@ -74,6 +74,7 @@ class MessengerFragment : Fragment() {
                 // Adapter wird erstellt und mit den neuen Daten initialisiert
                 rvAdapter = ChatsAdapter(loadedData, firebaseViewModel)
                 chatRV.adapter = rvAdapter
+                chatRV.adapter!!.notifyDataSetChanged()
             }
     }
 }
